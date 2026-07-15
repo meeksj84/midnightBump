@@ -1,0 +1,13 @@
+# Generated colors
+*.css
+
+# Runtime files
+.cache/
+*.log
+
+# Backup files
+*.bak
+*~
+
+# OS files
+.DS_Store
