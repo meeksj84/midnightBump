@@ -48,9 +48,6 @@ wallpaper="${choices[RANDOM % ${#choices[@]}]}"
 
 echo "$wallpaper" > "$CACHE_FILE"
 
-# Preload before switching to prevent flash
-
-
 # Set Wallpaper
 awww img "$wallpaper" \
     --outputs eDP-1 \
@@ -59,7 +56,18 @@ awww img "$wallpaper" \
     --transition-duration 1.5 \
     --transition-fps 60
 
-echo "$wallpaper"
+# Generate colors from wallpaper
 
+matugen image "$wallpaper" \
+    --config "$PROJECT_DIR/matugen/config.toml" \
+    --source-color-index 0
+
+# Reload Waybar
+pkill -x waybar || true
+sleep 0.5
+waybar >/tmp/waybar.log 2>&1 &
+disown
+
+echo "$wallpaper"
 
 
