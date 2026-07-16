@@ -1,0 +1,6 @@
+[config]
+reload_apps = false
+
+[templates.waybar]
+input_path = "./templates/waybar-colors.css"
+output_path = "~/.config/waybar/midnight-bump-colors.css"
