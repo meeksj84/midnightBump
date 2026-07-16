@@ -48,8 +48,17 @@ wallpaper="${choices[RANDOM % ${#choices[@]}]}"
 
 echo "$wallpaper" > "$CACHE_FILE"
 
-# Set wallpaper
-hyprctl hyprpaper wallpaper "eDP-1,$wallpaper,cover"
+# Preload before switching to prevent flash
+
+
+# Set Wallpaper
+awww img "$wallpaper" \
+    --outputs eDP-1 \
+    --resize crop \
+    --transition-type fade \
+    --transition-duration 1.5 \
+    --transition-fps 60
+
 echo "$wallpaper"
 
 
