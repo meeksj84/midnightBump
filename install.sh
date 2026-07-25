@@ -90,7 +90,54 @@ check_command() {
     fi
 }
 
+install_packages() {
+    local packages=(
+        git
+        firefox
+        ufw
+    )
+
+    local missing_packages=()
+
+    for package in "${packages[@]}"; do
+        if ! pacman -Q "$package" >/dev/null 2>&1; then
+            missing_packages+=("$package")
+        fi
+    done
+
+    if (( ${#missing_packages[@]} == 0 )); then
+        info "Required base packages are already installed."
+        return
+    fi
+
+    info "Installing base packages: ${missing_packages[*]}"
+
+    sudo pacman -S --needed "${missing_packages[@]}"
+}
+
+configure_firewall() {
+    if ! command -v ufw >/dev/null 2>&1; then
+        warn "UFW is unavailable; skipped firewall configuration."
+        return
+    fi
+
+    info "Configuring UFW firewall..."
+
+    sudo ufw default deny incoming
+    sudo ufw default allow outgoing
+
+    if sudo systemctl enable --now ufw.service; then
+        sudo ufw --force enable
+        info "UFW firewall is enabled."
+    else
+        warn "Could not enable ufw.service."
+    fi
+}
+
 info "Installing Midnight Bump from: $PROJECT_DIR"
+
+install_packages
+configure_firewall
 
 MISSING_COMMANDS=0
 
