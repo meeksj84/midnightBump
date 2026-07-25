@@ -1,0 +1,27 @@
+# Midnight Bump — Mako
+
+include=~/.config/mako/midnight-bump-colors.conf
+
+font=monospace 11
+width=340
+height=120
+margin=12
+padding=14
+border-size=2
+border-radius=12
+
+default-timeout=5000
+ignore-timeout=0
+
+anchor=top-right
+layer=overlay
+
+icons=1
+max-icon-size=48
+markup=1
+
+[urgency=low]
+default-timeout=3000
+
+[urgency=critical]
+default-timeout=0

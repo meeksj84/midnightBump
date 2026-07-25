@@ -65,6 +65,11 @@ matugen image "$wallpaper" \
 # Reload Kitty colors in open windows
 pkill -USR1 -x kitty 2>/dev/null || true
 
+# Reload Mako notification colors
+if command -v makoctl >/dev/null 2>&1; then
+    makoctl reload
+fi
+
 # Reload Waybar
 if systemctl --user is-enabled --quiet waybar.service; then
     systemctl --user restart waybar.service

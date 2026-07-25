@@ -103,6 +103,8 @@ check_command kitty kitty
 check_command hyprlock hyprlock
 check_command hypridle hypridle
 check_command loginctl systemd
+check_command mako mako
+check_command makoctl mako
 check_command notify-send libnotify
 
 # Optional commands used by the supplied Waybar configuration.
@@ -120,6 +122,7 @@ mkdir -p \
     "$HOME/.config/hypr/scripts" \
     "$HOME/.config/waybar" \
     "$HOME/.config/kitty" \
+    "$HOME/.config/mako" \
     "$HOME/.cache"
 
 link_file \
@@ -145,6 +148,10 @@ link_file \
 link_file \
     "$PROJECT_DIR/kitty/kitty.conf" \
     "$HOME/.config/kitty/kitty.conf"
+
+link_file \
+    "$PROJECT_DIR/mako/config" \
+    "$HOME/.config/mako/config"
 
 # Link the complete Matugen directory so config.toml can use paths
 # relative to its own location.
@@ -196,6 +203,14 @@ if command -v hypridle >/dev/null 2>&1; then
     else
         warn "Hypridle service was not found."
         warn "Add 'hypridle' to Hyprland autostart."
+    fi
+fi
+
+if command -v mako >/dev/null 2>&1; then
+    if systemctl --user enable --now mako.service; then
+        info "Enabled Mako user service."
+    else
+        warn "Could not enable Mako through systemd."
     fi
 fi
 
