@@ -26,8 +26,10 @@ backup_path() {
 
     if [[ -e "$path" ]]; then
         local timestamp
+        local backup
+
         timestamp="$(date +%Y%m%d-%H%M%S)"
-        local backup="${path}.backup-${timestamp}"
+        backup="${path}.backup-${timestamp}"
 
         mv "$path" "$backup"
         info "Backed up $path to $backup"
@@ -45,7 +47,8 @@ link_file() {
 
     mkdir -p "$(dirname "$target")"
 
-    if [[ -L "$target" ]] && [[ "$(readlink -f "$target")" == "$(readlink -f "$source")" ]]; then
+    if [[ -L "$target" ]] &&
+       [[ "$(readlink -f "$target")" == "$(readlink -f "$source")" ]]; then
         info "Already linked: $target"
         return
     fi
@@ -66,7 +69,8 @@ link_directory() {
 
     mkdir -p "$(dirname "$target")"
 
-    if [[ -L "$target" ]] && [[ "$(readlink -f "$target")" == "$(readlink -f "$source")" ]]; then
+    if [[ -L "$target" ]] &&
+       [[ "$(readlink -f "$target")" == "$(readlink -f "$source")" ]]; then
         info "Already linked: $target"
         return
     fi
@@ -81,7 +85,7 @@ check_command() {
     local package_hint="$2"
 
     if ! command -v "$command_name" >/dev/null 2>&1; then
-        warn "Missing command '$command_name' (Arch package: $package_hint)"
+        warn "Missing command '$command_name' (package: $package_hint)"
         MISSING_COMMANDS=1
     fi
 }
@@ -96,17 +100,19 @@ check_command awww-daemon awww
 check_command matugen matugen
 check_command waybar waybar
 check_command kitty kitty
+check_command hyprlock hyprlock
+check_command hypridle hypridle
+check_command loginctl systemd
 check_command notify-send libnotify
 
-
 # Optional commands used by the supplied Waybar configuration.
-check_command rofi rofi-wayland
+check_command rofi rofi
 check_command wpctl wireplumber
 check_command pavucontrol pavucontrol
-check_command wlogout wlogout
+check_command wlogout "wlogout (AUR)"
 
 if (( MISSING_COMMANDS )); then
-    warn "Some commands are missing. The links will still be installed."
+    warn "Some commands are missing. Configuration links will still be installed."
     warn "Install the missing packages before using every feature."
 fi
 
@@ -121,6 +127,14 @@ link_file \
     "$HOME/.config/hypr/scripts/set-wallpaper"
 
 link_file \
+    "$PROJECT_DIR/hypr/hyprlock/hyprlock.conf" \
+    "$HOME/.config/hypr/hyprlock.conf"
+
+link_file \
+    "$PROJECT_DIR/hypr/hypridle/hypridle.conf" \
+    "$HOME/.config/hypr/hypridle.conf"
+
+link_file \
     "$PROJECT_DIR/waybar/config.jsonc" \
     "$HOME/.config/waybar/config.jsonc"
 
@@ -132,8 +146,8 @@ link_file \
     "$PROJECT_DIR/kitty/kitty.conf" \
     "$HOME/.config/kitty/kitty.conf"
 
-# Link the complete Matugen directory so config.toml can use paths relative
-# to its own location, including ./templates/waybar-colors.css.
+# Link the complete Matugen directory so config.toml can use paths
+# relative to its own location.
 link_directory \
     "$PROJECT_DIR/matugen" \
     "$HOME/.config/matugen"
@@ -150,36 +164,95 @@ initial_wallpaper="$(
 )"
 
 if [[ -n "$initial_wallpaper" ]]; then
-    mkdir -p "$HOME/.config/waybar"
+    mkdir -p \
+        "$HOME/.config/waybar" \
+        "$HOME/.config/kitty"
 
-    matugen image "$initial_wallpaper" \
-        --config "$PROJECT_DIR/matugen/config.toml" \
-        --source-color-index 0
+    if command -v matugen >/dev/null 2>&1; then
+        matugen image "$initial_wallpaper" \
+            --config "$PROJECT_DIR/matugen/config.toml" \
+            --source-color-index 0
 
-    info "Generated Waybar colors from: $initial_wallpaper"
+        info "Generated Waybar and Kitty colors from: $initial_wallpaper"
+    else
+        warn "Matugen is unavailable; skipped initial palette generation."
+    fi
 else
-    warn "No wallpaper was found, so the initial Matugen palette was skipped."
+    warn "No wallpaper was found; skipped initial palette generation."
 fi
 
-cat <<'EOF'
+# Enable Hypridle so loginctl lock-session launches Hyprlock.
+if command -v hypridle >/dev/null 2>&1; then
+    if systemctl --user list-unit-files hypridle.service \
+        --no-legend 2>/dev/null |
+        grep -q '^hypridle\.service'; then
+
+        if systemctl --user enable --now hypridle.service; then
+            info "Enabled Hypridle user service."
+        else
+            warn "Could not enable Hypridle through systemd."
+            warn "Add 'hypridle' to Hyprland autostart instead."
+        fi
+    else
+        warn "Hypridle service was not found."
+        warn "Add 'hypridle' to Hyprland autostart."
+    fi
+fi
+
+POWER_BUTTON_SOURCE="$PROJECT_DIR/systemd/logind.conf.d/50-midnight-bump-power-button.conf"
+POWER_BUTTON_TARGET="/etc/systemd/logind.conf.d/50-midnight-bump-power-button.conf"
+
+if [[ -f "$POWER_BUTTON_SOURCE" ]]; then
+    if [[ -t 0 ]]; then
+        printf '\nInstall the power-button lock configuration? [y/N] '
+        read -r install_power_button || install_power_button=""
+
+        if [[ "$install_power_button" =~ ^[Yy]$ ]]; then
+            sudo mkdir -p /etc/systemd/logind.conf.d
+            sudo install -m 0644 \
+                "$POWER_BUTTON_SOURCE" \
+                "$POWER_BUTTON_TARGET"
+
+            info "Installed power-button lock configuration."
+            warn "Reboot before testing the power button."
+        else
+            warn "Skipped system power-button configuration."
+        fi
+    else
+        warn "Non-interactive shell detected; skipped power-button configuration."
+    fi
+else
+    warn "Power-button configuration file is missing:"
+    warn "$POWER_BUTTON_SOURCE"
+fi
+
+cat <<'MESSAGE'
 
 Midnight Bump files are installed.
 
-Add these commands to your Hyprland startup if they are not already present:
+Hyprland startup should include:
 
     awww-daemon
     waybar
+
+If Hypridle could not be enabled as a user service, also add:
+
+    hypridle
 
 Keep or add this wallpaper keybind in your Hyprland Lua configuration:
 
     d(mainMod .. " + W", hl.dsp.exec_cmd("~/.config/hypr/scripts/set-wallpaper"))
 
-Then reload Hyprland:
+Reload Hyprland with:
 
     hyprctl reload
 
-You can test the complete wallpaper/theme pipeline with:
+Test the wallpaper and theme pipeline with:
 
     ~/.config/hypr/scripts/set-wallpaper
 
-EOF
+Test the lock path before using the physical power button:
+
+    loginctl lock-session
+
+MESSAGE
