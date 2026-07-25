@@ -95,7 +95,9 @@ check_command awww awww
 check_command awww-daemon awww
 check_command matugen matugen
 check_command waybar waybar
+check_command kitty kitty
 check_command notify-send libnotify
+
 
 # Optional commands used by the supplied Waybar configuration.
 check_command rofi rofi-wayland
@@ -111,6 +113,7 @@ fi
 mkdir -p \
     "$HOME/.config/hypr/scripts" \
     "$HOME/.config/waybar" \
+    "$HOME/.config/kitty" \
     "$HOME/.cache"
 
 link_file \
@@ -124,6 +127,10 @@ link_file \
 link_file \
     "$PROJECT_DIR/waybar/style.css" \
     "$HOME/.config/waybar/style.css"
+
+link_file \
+    "$PROJECT_DIR/kitty/kitty.conf" \
+    "$HOME/.config/kitty/kitty.conf"
 
 # Link the complete Matugen directory so config.toml can use paths relative
 # to its own location, including ./templates/waybar-colors.css.
