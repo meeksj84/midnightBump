@@ -1,0 +1,97 @@
+@import "midnight-bump-colors.rasi"
+
+* {
+    font: "monospace 11";
+
+    background-color: transparent;
+    text-color: @mb-foreground;
+
+    spacing: 0;
+    margin: 0;
+    padding: 0;
+}
+
+window {
+    width: 520px;
+    border: 2px;
+    border-radius: 16px;
+    border-color: @mb-accent;
+    background-color: @mb-background;
+    padding: 14px;
+}
+
+mainbox {
+    spacing: 12px;
+    background-color: transparent;
+}
+
+inputbar {
+    spacing: 10px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    background-color: @mb-surface;
+    children: [ prompt, entry ];
+}
+
+prompt {
+    text-color: @mb-accent;
+}
+
+entry {
+    placeholder: "Search applications…";
+    placeholder-color: @mb-muted;
+    text-color: @mb-foreground;
+}
+
+message {
+    padding: 10px;
+    border-radius: 10px;
+    background-color: @mb-surface;
+}
+
+textbox {
+    text-color: @mb-muted;
+}
+
+listview {
+    columns: 1;
+    lines: 7;
+    spacing: 6px;
+    fixed-height: false;
+    scrollbar: false;
+    background-color: transparent;
+}
+
+element {
+    spacing: 12px;
+    padding: 9px 11px;
+    border-radius: 10px;
+    background-color: transparent;
+    text-color: @mb-foreground;
+}
+
+element normal.normal {
+    background-color: transparent;
+    text-color: @mb-foreground;
+}
+
+element selected.normal {
+    background-color: @mb-accent;
+    text-color: @mb-accent-text;
+}
+
+element alternate.normal {
+    background-color: transparent;
+    text-color: @mb-foreground;
+}
+
+element-icon {
+    size: 28px;
+    background-color: transparent;
+}
+
+element-text {
+    vertical-align: 0.5;
+    background-color: transparent;
+    text-color: inherit;
+}

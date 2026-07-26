@@ -152,6 +152,7 @@ check_command hypridle hypridle
 check_command loginctl systemd
 check_command mako mako
 check_command makoctl mako
+check_command rofi rofi
 check_command notify-send libnotify
 
 # Optional commands used by the supplied Waybar configuration.
@@ -170,6 +171,7 @@ mkdir -p \
     "$HOME/.config/waybar" \
     "$HOME/.config/kitty" \
     "$HOME/.config/mako" \
+    "$HOME/.config/rofi" \
     "$HOME/.cache"
 
 link_file \
@@ -199,6 +201,14 @@ link_file \
 link_file \
     "$PROJECT_DIR/mako/config" \
     "$HOME/.config/mako/config"
+
+link_file \
+    "$PROJECT_DIR/rofi/config.rasi" \
+    "$HOME/.config/rofi/config.rasi"
+
+link_file \
+    "$PROJECT_DIR/rofi/midnight-bump.rasi" \
+    "$HOME/.config/rofi/midnight-bump.rasi"
 
 # Link the complete Matugen directory so config.toml can use paths
 # relative to its own location.

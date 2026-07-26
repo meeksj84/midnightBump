@@ -1,0 +1,18 @@
+configuration {
+    modi: "drun,window,run";
+    show-icons: true;
+    display-drun: "Apps";
+    display-window: "Windows";
+    display-run: "Run";
+
+    drun-display-format: "{name}";
+    matching: "fuzzy";
+    sorting-method: "fzf";
+    sort: true;
+
+    terminal: "kitty";
+    click-to-exit: true;
+    hover-select: false;
+}
+
+@theme "midnight-bump"
