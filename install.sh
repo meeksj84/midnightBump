@@ -172,6 +172,7 @@ mkdir -p \
     "$HOME/.config/kitty" \
     "$HOME/.config/mako" \
     "$HOME/.config/rofi" \
+    "$HOME/.config/wlogout" \
     "$HOME/.cache"
 
 link_file \
@@ -209,6 +210,15 @@ link_file \
 link_file \
     "$PROJECT_DIR/rofi/midnight-bump.rasi" \
     "$HOME/.config/rofi/midnight-bump.rasi"
+
+link_file \
+    "$PROJECT_DIR/wlogout/layout" \
+    "$HOME/.config/wlogout/layout"
+
+link_file \
+    "$PROJECT_DIR/wlogout/style.css" \
+    "$HOME/.config/wlogout/style.css"
+
 
 # Link the complete Matugen directory so config.toml can use paths
 # relative to its own location.
