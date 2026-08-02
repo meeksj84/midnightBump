@@ -1,0 +1,173 @@
+@import url("midnight-bump-colors.css");
+
+* {
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+    font-family: "JetBrainsMono Nerd Font", "Noto Sans", sans-serif;
+    font-size: 12px;
+    color: @mb_foreground;
+}
+
+window#waybar {
+    background: alpha(@mb_background, 0.60);
+    color: @mb_foreground;
+    border-bottom: 1px solid alpha(@mb_accent, 0.35);
+}
+
+.modules-left,
+.modules-center,
+.modules-right {
+    margin: 3px 4px;
+}
+
+/* Shared pill styling */
+#custom-launcher,
+#workspaces,
+#window,
+#mpris,
+#clock,
+#network,
+#pulseaudio,
+#temperature,
+#memory,
+#battery,
+#tray,
+#custom-power {
+    background: alpha(@mb_surface, 0.58);
+    border: 1px solid alpha(@mb_accent, 0.28);
+    border-radius: 7px;
+    padding: 0 6px;
+    margin: 0 1px;
+}
+
+/* Launcher */
+#custom-launcher {
+    color: @mb_accent;
+    font-size: 15px;
+    min-width: 18px;
+    padding: 0 7px;
+}
+
+/* Workspaces */
+#workspaces {
+    padding: 0 3px;
+}
+
+#workspaces button {
+    min-width: 20px;
+    padding: 0 4px;
+    margin: 2px 1px;
+    border-radius: 5px;
+    color: @mb_muted;
+    background: transparent;
+}
+
+#workspaces button:hover {
+    color: @mb_foreground;
+    background: alpha(@mb_accent, 0.18);
+}
+
+#workspaces button.active {
+    color: @mb_accent_text;
+    background: alpha(@mb_accent, 0.88);
+}
+
+#workspaces button.urgent {
+    color: @mb_accent_text;
+    background: @mb_error;
+}
+
+/* Active window */
+#window {
+    color: @mb_muted;
+    padding: 0 5px;
+}
+
+/* Media */
+#mpris {
+    color: @mb_accent;
+    padding: 0 5px;
+}
+
+/* Clock */
+#clock {
+    color: @mb_foreground;
+    font-weight: 700;
+    padding: 0 8px;
+}
+
+/* Right-side modules */
+#network {
+    color: @mb_secondary;
+}
+
+#pulseaudio {
+    color: @mb_muted;
+}
+
+#pulseaudio.muted {
+    color: @mb_error;
+}
+
+#temperature {
+    color: @mb_muted;
+}
+
+#temperature.critical {
+    color: @mb_error;
+}
+
+#memory {
+    color: @mb_muted;
+}
+
+#battery {
+    color: @mb_foreground;
+}
+
+#battery.charging,
+#battery.plugged,
+#battery.full {
+    color: @mb_accent;
+}
+
+#battery.warning:not(.charging) {
+    color: @mb_secondary;
+}
+
+#battery.critical:not(.charging) {
+    color: @mb_error;
+}
+
+/* Tray */
+#tray {
+    padding: 0 5px;
+}
+
+/* Power button */
+#custom-power {
+    color: @mb_error;
+    font-size: 14px;
+    min-width: 18px;
+    padding: 0 7px;
+    margin-left: 1px;
+    margin-right: 4px;
+}
+
+#custom-power:hover {
+    color: @mb_accent_text;
+    background: alpha(@mb_error, 0.85);
+}
+
+/* Tooltips */
+tooltip {
+    background: alpha(@mb_background, 0.96);
+    border: 1px solid alpha(@mb_accent, 0.45);
+    border-radius: 8px;
+}
+
+tooltip label {
+    color: @mb_foreground;
+    padding: 6px;
+}

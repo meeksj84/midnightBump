@@ -1,0 +1,58 @@
+@import url("midnight-bump-colors.css");
+
+* {
+    background-image: none;
+    box-shadow: none;
+}
+
+window {
+    background-color: alpha(@mb_background, 0.72);
+}
+
+button {
+    min-width: 130px;
+    min-height: 130px;
+    margin: 12px;
+    padding: 18px;
+
+    border: 2px solid alpha(@mb_accent, 0.55);
+    border-radius: 18px;
+
+    background-color: alpha(@mb_surface, 0.94);
+    color: @mb_foreground;
+
+    font-family: monospace;
+    font-size: 16px;
+    font-weight: bold;
+
+    background-repeat: no-repeat;
+    background-position: center 28px;
+    background-size: 42px;
+}
+
+button:hover,
+button:focus {
+    border-color: @mb_accent;
+    background-color: @mb_accent;
+    color: @mb_accent_text;
+}
+
+#lock {
+    background-image: image(url("/usr/share/wlogout/icons/lock.png"));
+}
+
+#suspend {
+    background-image: image(url("/usr/share/wlogout/icons/suspend.png"));
+}
+
+#logout {
+    background-image: image(url("/usr/share/wlogout/icons/logout.png"));
+}
+
+#reboot {
+    background-image: image(url("/usr/share/wlogout/icons/reboot.png"));
+}
+
+#shutdown {
+    background-image: image(url("/usr/share/wlogout/icons/shutdown.png"));
+}

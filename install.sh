@@ -90,14 +90,94 @@ check_command() {
     fi
 }
 
+validate_project_files() {
+    local required_files=(
+        "hypr/scripts/set-wallpaper"
+        "hypr/keybindings.lua"
+        "hypr/hyprlock/hyprlock.conf"
+        "hypr/hypridle/hypridle.conf"
+
+        "waybar/config.jsonc"
+        "waybar/style.css"
+
+        "kitty/kitty.conf"
+        "mako/config"
+
+        "rofi/config.rasi"
+        "rofi/midnight-bump.rasi"
+
+        "wlogout/layout"
+        "wlogout/style.css"
+
+        "matugen/config.toml"
+        "matugen/templates/waybar-colors.css"
+        "matugen/templates/kitty-colors.conf"
+        "matugen/templates/hyprlock-colors.conf"
+        "matugen/templates/mako-colors.conf"
+        "matugen/templates/rofi-colors.rasi"
+        "matugen/templates/wlogout-colors.css"
+
+        "systemd/logind.conf.d/50-midnight-bump-power-button.conf"
+    )
+
+    local missing_files=()
+    local relative_path
+
+    for relative_path in "${required_files[@]}"; do
+        if [[ ! -f "$PROJECT_DIR/$relative_path" ]]; then
+            missing_files+=("$relative_path")
+        fi
+    done
+
+    if (( ${#missing_files[@]} > 0 )); then
+        error "The cloned Midnight Bump repository is incomplete."
+        error "Missing required files:"
+
+        printf '  - %s\n' "${missing_files[@]}" >&2
+
+        error "Pull the latest repository changes before running the installer."
+        exit 1
+    fi
+
+    info "Project file validation passed."
+}
+
 install_packages() {
     local packages=(
+        base-devel
         git
         firefox
         ufw
+
+        hyprland
+        waybar
+        kitty
+        dolphin
+
+        awww
+        matugen
+
+        hyprlock
+        hypridle
+
+        mako
+        libnotify
+
+        rofi
+
+        wireplumber
+        pavucontrol
+        brightnessctl
+        playerctl
+
+        network-manager-applet
+        xdg-desktop-portal-hyprland
+        qt6-wayland
+        ttf-jetbrains-mono-nerd
     )
 
     local missing_packages=()
+    local package
 
     for package in "${packages[@]}"; do
         if ! pacman -Q "$package" >/dev/null 2>&1; then
@@ -106,13 +186,66 @@ install_packages() {
     done
 
     if (( ${#missing_packages[@]} == 0 )); then
-        info "Required base packages are already installed."
+        info "Required official packages are already installed."
         return
     fi
 
-    info "Installing base packages: ${missing_packages[*]}"
+    info "Installing official packages: ${missing_packages[*]}"
 
-    sudo pacman -S --needed "${missing_packages[@]}"
+    sudo pacman -Syu --needed --noconfirm "${missing_packages[@]}"
+
+    info "Official package installation completed."
+}
+
+install_paru() {
+    if command -v paru >/dev/null 2>&1; then
+        info "Paru is already installed."
+        return
+    fi
+
+    local build_root
+    build_root="$(mktemp -d)"
+
+    info "Installing Paru from the AUR..."
+
+    if ! git clone \
+        --depth 1 \
+        https://aur.archlinux.org/paru.git \
+        "$build_root/paru"; then
+        rm -rf "$build_root"
+        error "Could not clone the Paru AUR repository."
+        return 1
+    fi
+
+    if ! (
+        cd "$build_root/paru"
+        makepkg -si --needed --noconfirm
+    ); then
+        rm -rf "$build_root"
+        error "Paru failed to build or install."
+        return 1
+    fi
+
+    rm -rf "$build_root"
+
+    if ! command -v paru >/dev/null 2>&1; then
+        error "Paru installation did not complete successfully."
+        return 1
+    fi
+
+    info "Paru installation completed."
+}
+
+install_aur_packages() {
+    local packages=(
+        wlogout
+    )
+
+    info "Installing Midnight Bump AUR packages..."
+
+    paru -S --needed --noconfirm "${packages[@]}"
+
+    info "AUR package installation completed."
 }
 
 configure_firewall() {
@@ -135,8 +268,11 @@ configure_firewall() {
 }
 
 info "Installing Midnight Bump from: $PROJECT_DIR"
+validate_project_files
 
 install_packages
+install_paru
+install_aur_packages
 configure_firewall
 
 MISSING_COMMANDS=0
@@ -156,10 +292,10 @@ check_command rofi rofi
 check_command notify-send libnotify
 
 # Optional commands used by the supplied Waybar configuration.
-check_command rofi rofi
 check_command wpctl wireplumber
 check_command pavucontrol pavucontrol
-check_command wlogout "wlogout (AUR)"
+check_command paru paru
+check_command wlogout wlogout
 
 if (( MISSING_COMMANDS )); then
     warn "Some commands are missing. Configuration links will still be installed."
