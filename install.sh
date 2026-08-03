@@ -316,6 +316,10 @@ link_file \
     "$HOME/.config/hypr/scripts/set-wallpaper"
 
 link_file \
+    "$PROJECT_DIR/hypr/keybindings.lua" \
+    "$HOME/.config/hypr/keybindings.lua"
+
+link_file \
     "$PROJECT_DIR/hypr/hyprlock/hyprlock.conf" \
     "$HOME/.config/hypr/hyprlock.conf"
 
@@ -355,6 +359,41 @@ link_file \
     "$PROJECT_DIR/wlogout/style.css" \
     "$HOME/.config/wlogout/style.css"
 
+HYPRLAND_CONFIG="$HOME/.config/hypr/hyprland.lua"
+
+if [[ -f "$HYPRLAND_CONFIG" ]]; then
+    if [[ ! -f "$HYPRLAND_CONFIG.midnight-bump.bak" ]]; then
+        cp -a \
+            "$HYPRLAND_CONFIG" \
+            "$HYPRLAND_CONFIG.midnight-bump.bak"
+
+        info "Backed up Hyprland config to:"
+        info "$HYPRLAND_CONFIG.midnight-bump.bak"
+    fi
+
+    # Remove the legacy Dunst autostart entry.
+    sed -i \
+        '/^[[:space:]]*hl\.exec("dunst")[[:space:]]*$/d' \
+        "$HYPRLAND_CONFIG"
+
+    if ! grep -Fq 'require("keybindings")' "$HYPRLAND_CONFIG"; then
+        printf '\nrequire("keybindings")\n' >> "$HYPRLAND_CONFIG"
+        info "Enabled Midnight Bump keybindings."
+    else
+        info "Midnight Bump keybindings are already loaded."
+    fi
+
+    if ! grep -Fq 'hl.exec("awww-daemon")' "$HYPRLAND_CONFIG"; then
+        printf 'hl.exec("awww-daemon")\n' >> "$HYPRLAND_CONFIG"
+        info "Added awww-daemon to Hyprland startup."
+    else
+        info "awww-daemon is already in Hyprland startup."
+    fi
+else
+    warn "Hyprland Lua config was not found:"
+    warn "$HYPRLAND_CONFIG"
+    warn "Could not enable keybindings or wallpaper startup automatically."
+fi
 
 # Link the complete Matugen directory so config.toml can use paths
 # relative to its own location.
@@ -391,6 +430,21 @@ else
     warn "No wallpaper was found; skipped initial palette generation."
 fi
 
+if command -v waybar >/dev/null 2>&1; then
+    if systemctl --user list-unit-files waybar.service \
+        --no-legend 2>/dev/null |
+        grep -q '^waybar\.service'; then
+
+        if systemctl --user enable --now waybar.service; then
+            info "Enabled Waybar user service."
+        else
+            warn "Could not enable Waybar through systemd."
+        fi
+    else
+        warn "Waybar user service was not found."
+    fi
+fi
+
 # Enable Hypridle so loginctl lock-session launches Hyprlock.
 if command -v hypridle >/dev/null 2>&1; then
     if systemctl --user list-unit-files hypridle.service \
@@ -410,11 +464,40 @@ if command -v hypridle >/dev/null 2>&1; then
 fi
 
 if command -v mako >/dev/null 2>&1; then
+    systemctl --user stop mako.service 2>/dev/null || true
+
+    pkill -x dunst 2>/dev/null || true
+    pkill -x swaync 2>/dev/null || true
+    pkill -x mako 2>/dev/null || true
+
+    systemctl --user reset-failed mako.service 2>/dev/null || true
+
     if systemctl --user enable --now mako.service; then
         info "Enabled Mako user service."
     else
         warn "Could not enable Mako through systemd."
     fi
+fi
+
+if command -v awww-daemon >/dev/null 2>&1 &&
+   [[ -n "${WAYLAND_DISPLAY:-}" ]]; then
+
+    if ! pgrep -x awww-daemon >/dev/null 2>&1; then
+        nohup awww-daemon >/dev/null 2>&1 &
+        sleep 1
+    fi
+
+    if pgrep -x awww-daemon >/dev/null 2>&1; then
+        if "$HOME/.config/hypr/scripts/set-wallpaper"; then
+            info "Started the wallpaper and theme pipeline."
+        else
+            warn "Could not apply the initial wallpaper."
+        fi
+    else
+        warn "awww-daemon did not start."
+    fi
+else
+    warn "No active Wayland session; wallpaper startup will occur at next Hyprland login."
 fi
 
 POWER_BUTTON_SOURCE="$PROJECT_DIR/systemd/logind.conf.d/50-midnight-bump-power-button.conf"
@@ -448,10 +531,11 @@ cat <<'MESSAGE'
 
 Midnight Bump files are installed.
 
-Hyprland startup should include:
+Waybar and the wallpaper engine are configured automatically.
 
-    awww-daemon
-    waybar
+Midnight Bump keybindings are loaded through:
+
+    require("keybindings")
 
 If Hypridle could not be enabled as a user service, also add:
 
