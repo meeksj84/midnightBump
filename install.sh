@@ -116,7 +116,7 @@ validate_project_files() {
         "matugen/templates/mako-colors.conf"
         "matugen/templates/rofi-colors.rasi"
         "matugen/templates/wlogout-colors.css"
-
+        "systemd/user/awww-daemon.service"
         "systemd/logind.conf.d/50-midnight-bump-power-button.conf"
     )
 
@@ -309,6 +309,7 @@ mkdir -p \
     "$HOME/.config/mako" \
     "$HOME/.config/rofi" \
     "$HOME/.config/wlogout" \
+    "$HOME/.config/systemd/user" \
     "$HOME/.cache"
 
 link_file \
@@ -356,6 +357,10 @@ link_file \
     "$HOME/.config/wlogout/layout"
 
 link_file \
+    "$PROJECT_DIR/systemd/user/awww-daemon.service" \
+    "$HOME/.config/systemd/user/awww-daemon.service"
+
+link_file \
     "$PROJECT_DIR/wlogout/style.css" \
     "$HOME/.config/wlogout/style.css"
 
@@ -372,9 +377,13 @@ if [[ -f "$HYPRLAND_CONFIG" ]]; then
     fi
 
     # Remove the legacy Dunst autostart entry.
-    sed -i \
+       sed -i \
         '/^[[:space:]]*hl\.exec("dunst")[[:space:]]*$/d' \
         "$HYPRLAND_CONFIG"
+    # Remove the invalid legacy wallpaper-daemon Lua call.
+    sed -i \
+    '/^[[:space:]]*hl\.exec("awww-daemon")[[:space:]]*$/d' \
+    "$HYPRLAND_CONFIG"
 
     if ! grep -Fq 'require("keybindings")' "$HYPRLAND_CONFIG"; then
         printf '\nrequire("keybindings")\n' >> "$HYPRLAND_CONFIG"
@@ -383,12 +392,6 @@ if [[ -f "$HYPRLAND_CONFIG" ]]; then
         info "Midnight Bump keybindings are already loaded."
     fi
 
-    if ! grep -Fq 'hl.exec("awww-daemon")' "$HYPRLAND_CONFIG"; then
-        printf 'hl.exec("awww-daemon")\n' >> "$HYPRLAND_CONFIG"
-        info "Added awww-daemon to Hyprland startup."
-    else
-        info "awww-daemon is already in Hyprland startup."
-    fi
 else
     warn "Hyprland Lua config was not found:"
     warn "$HYPRLAND_CONFIG"
@@ -479,25 +482,36 @@ if command -v mako >/dev/null 2>&1; then
     fi
 fi
 
-if command -v awww-daemon >/dev/null 2>&1 &&
-   [[ -n "${WAYLAND_DISPLAY:-}" ]]; then
+if command -v awww-daemon >/dev/null 2>&1; then
+    systemctl --user daemon-reload
 
-    if ! pgrep -x awww-daemon >/dev/null 2>&1; then
-        nohup awww-daemon >/dev/null 2>&1 &
-        sleep 1
-    fi
+    if systemctl --user enable --now awww-daemon.service; then
+        info "Enabled awww-daemon user service."
 
-    if pgrep -x awww-daemon >/dev/null 2>&1; then
-        if "$HOME/.config/hypr/scripts/set-wallpaper"; then
-            info "Started the wallpaper and theme pipeline."
+        for _ in {1..10}; do
+            if pgrep -x awww-daemon >/dev/null 2>&1; then
+                break
+            fi
+
+            sleep 0.2
+        done
+
+        if pgrep -x awww-daemon >/dev/null 2>&1 &&
+           [[ -n "${WAYLAND_DISPLAY:-}" ]]; then
+
+            if "$HOME/.config/hypr/scripts/set-wallpaper"; then
+                info "Started the wallpaper and theme pipeline."
+            else
+                warn "Could not apply the initial wallpaper."
+            fi
+        elif [[ -z "${WAYLAND_DISPLAY:-}" ]]; then
+            warn "No active Wayland session; wallpaper will be applied after login."
         else
-            warn "Could not apply the initial wallpaper."
+            warn "awww-daemon service started, but the process was not detected."
         fi
     else
-        warn "awww-daemon did not start."
+        warn "Could not enable awww-daemon through systemd."
     fi
-else
-    warn "No active Wayland session; wallpaper startup will occur at next Hyprland login."
 fi
 
 POWER_BUTTON_SOURCE="$PROJECT_DIR/systemd/logind.conf.d/50-midnight-bump-power-button.conf"

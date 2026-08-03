@@ -49,12 +49,30 @@ wallpaper="${choices[RANDOM % ${#choices[@]}]}"
 echo "$wallpaper" > "$CACHE_FILE"
 
 # Set Wallpaper
-awww img "$wallpaper" \
-    --outputs eDP-1 \
-    --resize crop \
-    --transition-type fade \
-    --transition-duration 1.5 \
-    --transition-fps 60
+# Detect the focused Hyprland output.
+output="$(
+    hyprctl monitors |
+        awk '
+            /^Monitor / { name=$2 }
+            /focused: yes/ { print name; exit }
+        '
+)"
+
+# Set wallpaper on the focused output when available.
+if [[ -n "$output" ]]; then
+    awww img "$wallpaper" \
+        --outputs "$output" \
+        --resize crop \
+        --transition-type fade \
+        --transition-duration 1.5 \
+        --transition-fps 60
+else
+    awww img "$wallpaper" \
+        --resize crop \
+        --transition-type fade \
+        --transition-duration 1.5 \
+        --transition-fps 60
+fi
 
 # Generate colors from wallpaper
 
