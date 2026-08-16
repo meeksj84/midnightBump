@@ -92,6 +92,9 @@ check_command() {
 
 validate_project_files() {
     local required_files=(
+        "packages/official.txt"
+        "packages/aur.txt"
+
         "hypr/scripts/set-wallpaper"
         "hypr/keybindings.lua"
         "hypr/hyprlock/hyprlock.conf"
@@ -116,6 +119,7 @@ validate_project_files() {
         "matugen/templates/mako-colors.conf"
         "matugen/templates/rofi-colors.rasi"
         "matugen/templates/wlogout-colors.css"
+
         "systemd/user/awww-daemon.service"
         "systemd/logind.conf.d/50-midnight-bump-power-button.conf"
     )
@@ -143,41 +147,23 @@ validate_project_files() {
 }
 
 install_packages() {
-    local packages=(
-        base-devel
-        git
-        firefox
-        ufw
-
-        hyprland
-        waybar
-        kitty
-        dolphin
-
-        awww
-        matugen
-
-        hyprlock
-        hypridle
-
-        mako
-        libnotify
-
-        rofi
-
-        wireplumber
-        pavucontrol
-        brightnessctl
-        playerctl
-
-        network-manager-applet
-        xdg-desktop-portal-hyprland
-        qt6-wayland
-        ttf-jetbrains-mono-nerd
-    )
-
+    local package_file="$PROJECT_DIR/packages/official.txt"
+    local packages=()
     local missing_packages=()
     local package
+
+    mapfile -t packages < <(
+        sed \
+            -e 's/[[:space:]]*#.*$//' \
+            -e '/^[[:space:]]*$/d' \
+            "$package_file"
+    )
+
+    if (( ${#packages[@]} == 0 )); then
+        warn "Official package manifest is empty:"
+        warn "$package_file"
+        return
+    fi
 
     for package in "${packages[@]}"; do
         if ! pacman -Q "$package" >/dev/null 2>&1; then
@@ -212,6 +198,7 @@ install_paru() {
         --depth 1 \
         https://aur.archlinux.org/paru.git \
         "$build_root/paru"; then
+
         rm -rf "$build_root"
         error "Could not clone the Paru AUR repository."
         return 1
@@ -237,11 +224,22 @@ install_paru() {
 }
 
 install_aur_packages() {
-    local packages=(
-        wlogout
+    local package_file="$PROJECT_DIR/packages/aur.txt"
+    local packages=()
+
+    mapfile -t packages < <(
+        sed \
+            -e 's/[[:space:]]*#.*$//' \
+            -e '/^[[:space:]]*$/d' \
+            "$package_file"
     )
 
-    info "Installing Midnight Bump AUR packages..."
+    if (( ${#packages[@]} == 0 )); then
+        info "No Midnight Bump AUR packages are configured."
+        return
+    fi
+
+    info "Installing Midnight Bump AUR packages: ${packages[*]}"
 
     paru -S --needed --noconfirm "${packages[@]}"
 
@@ -268,6 +266,7 @@ configure_firewall() {
 }
 
 info "Installing Midnight Bump from: $PROJECT_DIR"
+
 validate_project_files
 
 install_packages
@@ -377,13 +376,14 @@ if [[ -f "$HYPRLAND_CONFIG" ]]; then
     fi
 
     # Remove the legacy Dunst autostart entry.
-       sed -i \
+    sed -i \
         '/^[[:space:]]*hl\.exec("dunst")[[:space:]]*$/d' \
         "$HYPRLAND_CONFIG"
+
     # Remove the invalid legacy wallpaper-daemon Lua call.
     sed -i \
-    '/^[[:space:]]*hl\.exec("awww-daemon")[[:space:]]*$/d' \
-    "$HYPRLAND_CONFIG"
+        '/^[[:space:]]*hl\.exec("awww-daemon")[[:space:]]*$/d' \
+        "$HYPRLAND_CONFIG"
 
     if ! grep -Fq 'require("keybindings")' "$HYPRLAND_CONFIG"; then
         printf '\nrequire("keybindings")\n' >> "$HYPRLAND_CONFIG"
@@ -395,7 +395,7 @@ if [[ -f "$HYPRLAND_CONFIG" ]]; then
 else
     warn "Hyprland Lua config was not found:"
     warn "$HYPRLAND_CONFIG"
-    warn "Could not enable keybindings or wallpaper startup automatically."
+    warn "Could not enable keybindings automatically."
 fi
 
 # Link the complete Matugen directory so config.toml can use paths
@@ -411,8 +411,14 @@ info "Generating an initial color palette..."
 initial_wallpaper="$(
     find "$PROJECT_DIR/wallpapers" \
         -type f \
-        \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' \) \
-        -print -quit
+        \( \
+            -iname '*.jpg' \
+            -o -iname '*.jpeg' \
+            -o -iname '*.png' \
+            -o -iname '*.webp' \
+        \) \
+        -print \
+        -quit
 )"
 
 if [[ -n "$initial_wallpaper" ]]; then
@@ -504,6 +510,7 @@ if command -v awww-daemon >/dev/null 2>&1; then
             else
                 warn "Could not apply the initial wallpaper."
             fi
+
         elif [[ -z "${WAYLAND_DISPLAY:-}" ]]; then
             warn "No active Wayland session; wallpaper will be applied after login."
         else
@@ -524,6 +531,7 @@ if [[ -f "$POWER_BUTTON_SOURCE" ]]; then
 
         if [[ "$install_power_button" =~ ^[Yy]$ ]]; then
             sudo mkdir -p /etc/systemd/logind.conf.d
+
             sudo install -m 0644 \
                 "$POWER_BUTTON_SOURCE" \
                 "$POWER_BUTTON_TARGET"
