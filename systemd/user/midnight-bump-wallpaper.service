@@ -1,0 +1,12 @@
+[Unit]
+Description=Midnight Bump wallpaper and theme
+After=awww-daemon.service
+Requires=awww-daemon.service
+PartOf=graphical-session.target
+
+[Service]
+Type=oneshot
+ExecStart=%h/.config/hypr/scripts/set-wallpaper
+
+[Install]
+WantedBy=graphical-session.target

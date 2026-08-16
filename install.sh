@@ -121,6 +121,7 @@ validate_project_files() {
         "matugen/templates/wlogout-colors.css"
 
         "systemd/user/awww-daemon.service"
+        "systemd/user/midnight-bump-wallpaper.service"
         "systemd/logind.conf.d/50-midnight-bump-power-button.conf"
     )
 
@@ -360,6 +361,10 @@ link_file \
     "$HOME/.config/systemd/user/awww-daemon.service"
 
 link_file \
+    "$PROJECT_DIR/systemd/user/midnight-bump-wallpaper.service" \
+    "$HOME/.config/systemd/user/midnight-bump-wallpaper.service"
+
+link_file \
     "$PROJECT_DIR/wlogout/style.css" \
     "$HOME/.config/wlogout/style.css"
 
@@ -502,22 +507,23 @@ if command -v awww-daemon >/dev/null 2>&1; then
             sleep 0.2
         done
 
-        if pgrep -x awww-daemon >/dev/null 2>&1 &&
-           [[ -n "${WAYLAND_DISPLAY:-}" ]]; then
-
-            if "$HOME/.config/hypr/scripts/set-wallpaper"; then
-                info "Started the wallpaper and theme pipeline."
-            else
-                warn "Could not apply the initial wallpaper."
-            fi
-
-        elif [[ -z "${WAYLAND_DISPLAY:-}" ]]; then
-            warn "No active Wayland session; wallpaper will be applied after login."
+        if pgrep -x awww-daemon >/dev/null 2>&1; then
+            info "awww-daemon is running."
         else
             warn "awww-daemon service started, but the process was not detected."
         fi
     else
         warn "Could not enable awww-daemon through systemd."
+    fi
+fi
+
+if [[ -f "$HOME/.config/systemd/user/midnight-bump-wallpaper.service" ]]; then
+    systemctl --user daemon-reload
+
+    if systemctl --user enable --now midnight-bump-wallpaper.service; then
+        info "Enabled automatic Midnight Bump wallpaper rotation."
+    else
+        warn "Could not enable automatic wallpaper rotation."
     fi
 fi
 
