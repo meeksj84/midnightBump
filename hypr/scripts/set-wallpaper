@@ -83,20 +83,16 @@ matugen image "$wallpaper" \
 # Reload Kitty colors in open windows
 pkill -USR1 -x kitty 2>/dev/null || true
 
-# Reload Mako notification colors
-if command -v makoctl >/dev/null 2>&1; then
-    makoctl reload
-fi
+# Reload Mako notification colors without blocking login.
+    if command -v makoctl >/dev/null 2>&1; then
+    timeout 1s makoctl reload >/dev/null 2>&1 || true
+    fi
 
-# Reload Waybar
-if systemctl --user is-enabled --quiet waybar.service; then
-    systemctl --user restart waybar.service
-else
-    pkill -x waybar 2>/dev/null || true
-    sleep 0.5
-    waybar >/tmp/waybar.log 2>&1 &
-    disown
-fi
+# Reload Waybar only if it is already running.
+# During login, Waybar will start normally with the generated theme.
+    if systemctl --user is-active --quiet waybar.service; then
+    systemctl --user restart --no-block waybar.service || true
+    fi
 
 echo "$wallpaper"
 

@@ -385,9 +385,13 @@ if [[ -f "$HYPRLAND_CONFIG" ]]; then
         '/^[[:space:]]*hl\.exec("dunst")[[:space:]]*$/d' \
         "$HYPRLAND_CONFIG"
 
-    # Remove the invalid legacy wallpaper-daemon Lua call.
+    # Remove legacy direct awww-daemon startup entries.
     sed -i \
         '/^[[:space:]]*hl\.exec("awww-daemon")[[:space:]]*$/d' \
+        "$HYPRLAND_CONFIG"
+
+    sed -i \
+        '/^[[:space:]]*hl\.exec_cmd("\/usr\/bin\/awww-daemon")[[:space:]]*$/d' \
         "$HYPRLAND_CONFIG"
 
     if ! grep -Fq 'require("keybindings")' "$HYPRLAND_CONFIG"; then
@@ -492,6 +496,11 @@ if command -v mako >/dev/null 2>&1; then
         warn "Could not enable Mako through systemd."
     fi
 fi
+
+# Remove stale enable-links from the pre-UWSM service layout.
+rm -f \
+    "$HOME/.config/systemd/user/graphical-session.target.wants/awww-daemon.service" \
+    "$HOME/.config/systemd/user/graphical-session.target.wants/midnight-bump-wallpaper.service"
 
 if command -v awww-daemon >/dev/null 2>&1; then
     systemctl --user daemon-reload

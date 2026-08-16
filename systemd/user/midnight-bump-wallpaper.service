@@ -1,12 +1,13 @@
 [Unit]
 Description=Midnight Bump wallpaper and theme
-After=awww-daemon.service
 Requires=awww-daemon.service
-PartOf=graphical-session.target
+After=wayland-wm@hyprland.desktop.service awww-daemon.service
+PartOf=wayland-session@hyprland.desktop.target
 
 [Service]
 Type=oneshot
+ExecStartPre=/usr/bin/bash -c 'for i in {1..50}; do /usr/bin/awww query 2>/dev/null | /usr/bin/grep -q "currently displaying" && exit 0; /usr/bin/sleep 0.1; done; exit 1'
 ExecStart=%h/.config/hypr/scripts/set-wallpaper
 
 [Install]
-WantedBy=graphical-session.target
+WantedBy=wayland-session@hyprland.desktop.target
