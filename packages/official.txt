@@ -21,3 +21,7 @@ network-manager-applet
 xdg-desktop-portal-hyprland
 qt6-wayland
 ttf-jetbrains-mono-nerd
+sddm
+qt6-svg
+qt6-virtualkeyboard
+qt6-multimedia-ffmpeg

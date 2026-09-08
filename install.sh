@@ -123,6 +123,13 @@ validate_project_files() {
         "systemd/user/awww-daemon.service"
         "systemd/user/midnight-bump-wallpaper.service"
         "systemd/logind.conf.d/50-midnight-bump-power-button.conf"
+        "sddm/midnight-bump-theme/Main.qml"
+        "sddm/midnight-bump-theme/metadata.desktop"
+        "sddm/midnight-bump-theme/Themes/midnight-bump.conf"
+        "sddm/midnight-bump-theme/Backgrounds/pixel_sakura.gif"
+        "sddm/midnight-bump-theme/Fonts/ARCADECLASSIC.TTF"
+        "sddm/config/10-midnight-bump-theme.conf"
+        "sddm/config/20-midnight-bump-hidpi.conf"
     )
 
     local missing_files=()
@@ -562,6 +569,67 @@ if [[ -f "$POWER_BUTTON_SOURCE" ]]; then
 else
     warn "Power-button configuration file is missing:"
     warn "$POWER_BUTTON_SOURCE"
+fi
+
+SDDM_THEME_SOURCE="$PROJECT_DIR/sddm/midnight-bump-theme"
+SDDM_THEME_TARGET="/usr/share/sddm/themes/midnight-bump"
+
+SDDM_THEME_CONFIG_SOURCE="$PROJECT_DIR/sddm/config/10-midnight-bump-theme.conf"
+SDDM_THEME_CONFIG_TARGET="/etc/sddm.conf.d/10-midnight-bump-theme.conf"
+
+SDDM_HIDPI_CONFIG_SOURCE="$PROJECT_DIR/sddm/config/20-midnight-bump-hidpi.conf"
+SDDM_HIDPI_CONFIG_TARGET="/etc/sddm.conf.d/20-midnight-bump-hidpi.conf"
+
+SDDM_FONT_SOURCE="$PROJECT_DIR/sddm/midnight-bump-theme/Fonts/ARCADECLASSIC.TTF"
+SDDM_FONT_TARGET="/usr/share/fonts/ARCADECLASSIC.TTF"
+
+if [[ -d "$SDDM_THEME_SOURCE" ]]; then
+    sudo rm -rf "$SDDM_THEME_TARGET"
+    sudo mkdir -p "$SDDM_THEME_TARGET"
+    sudo cp -a "$SDDM_THEME_SOURCE/." "$SDDM_THEME_TARGET/"
+    sudo chown -R root:root "$SDDM_THEME_TARGET"
+
+    info "Installed Midnight Bump SDDM theme."
+else
+    warn "Midnight Bump SDDM theme source is missing."
+fi
+
+if [[ -f "$SDDM_FONT_SOURCE" ]]; then
+    sudo install -m 0644 \
+        "$SDDM_FONT_SOURCE" \
+        "$SDDM_FONT_TARGET"
+
+    if command -v fc-cache >/dev/null 2>&1; then
+        sudo fc-cache -f >/dev/null 2>&1 || true
+    fi
+
+    info "Installed Midnight Bump SDDM font."
+else
+    warn "Midnight Bump SDDM font is missing."
+fi
+
+if [[ -f "$SDDM_THEME_CONFIG_SOURCE" ]]; then
+    sudo mkdir -p /etc/sddm.conf.d
+
+    sudo install -m 0644 \
+        "$SDDM_THEME_CONFIG_SOURCE" \
+        "$SDDM_THEME_CONFIG_TARGET"
+
+    info "Installed Midnight Bump SDDM theme configuration."
+else
+    warn "Midnight Bump SDDM theme configuration is missing."
+fi
+
+if [[ -f "$SDDM_HIDPI_CONFIG_SOURCE" ]]; then
+    sudo mkdir -p /etc/sddm.conf.d
+
+    sudo install -m 0644 \
+        "$SDDM_HIDPI_CONFIG_SOURCE" \
+        "$SDDM_HIDPI_CONFIG_TARGET"
+
+    info "Installed Midnight Bump SDDM HiDPI configuration."
+else
+    warn "Midnight Bump SDDM HiDPI configuration is missing."
 fi
 
 cat <<'MESSAGE'
