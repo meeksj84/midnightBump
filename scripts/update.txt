@@ -1,0 +1,481 @@
+
+============================================================
+MIDNIGHT BUMP SYSTEM HEALTH CHECK
+============================================================
+Host:       
+Date:       Thu Sep 24 12:36:55 PM PDT 2026
+Kernel:     7.2.2-arch1-1
+Uptime:     up 29 minutes
+Desktop:    Hyprland
+Session:    wayland
+
+============================================================
+1. FAILED SERVICES
+============================================================
+[PASS] No failed system services.
+[PASS] No failed user services.
+
+============================================================
+2. CURRENT BOOT ERRORS
+============================================================
+[WARN] Current boot contains error-or-higher journal entries.
+Sep 24 12:07:53 Morbo kernel: virt/tdx: TDX not supported by the host platform
+Sep 24 12:07:53 Morbo kernel: ACPI BIOS Error (bug): Could not resolve symbol [\_SB.PCI0.PB2], AE_NOT_FOUND (20260408/dswload2-162)
+Sep 24 12:07:53 Morbo kernel: ACPI Error: AE_NOT_FOUND, During name lookup/catalog (20260408/psobject-220)
+Sep 24 12:07:54 Morbo kernel: 
+Sep 24 12:07:54 Morbo kernel: lenovo_wmi_gamezone 887B54E3-DDDC-4B2C-8B88-68A26A8835D0-3: platform_profile probe failed
+Sep 24 12:07:58 Morbo wpa_supplicant[794]: wlp2s0: nl80211: kernel reports: multicast RX registrations are not supported
+Sep 24 12:07:58 Morbo wpa_supplicant[794]: p2p-dev-wlp2s0: nl80211: kernel reports: multicast RX registrations are not supported
+Sep 24 12:08:22 Morbo kernel: ideapad_acpi VPC2004:00: unexpected charge_types: both [Fast] and [Long_Life] are enabled
+Sep 24 12:10:52 Morbo kernel: ideapad_acpi VPC2004:00: unexpected charge_types: both [Fast] and [Long_Life] are enabled
+Sep 24 12:14:30 Morbo kernel: ideapad_acpi VPC2004:00: unexpected charge_types: both [Fast] and [Long_Life] are enabled
+Sep 24 12:16:41 Morbo kernel: ideapad_acpi VPC2004:00: unexpected charge_types: both [Fast] and [Long_Life] are enabled
+Sep 24 12:19:14 Morbo kernel: ideapad_acpi VPC2004:00: unexpected charge_types: both [Fast] and [Long_Life] are enabled
+Sep 24 12:22:05 Morbo kernel: ideapad_acpi VPC2004:00: unexpected charge_types: both [Fast] and [Long_Life] are enabled
+Sep 24 12:25:29 Morbo kernel: ideapad_acpi VPC2004:00: unexpected charge_types: both [Fast] and [Long_Life] are enabled
+Sep 24 12:29:37 Morbo kernel: ideapad_acpi VPC2004:00: unexpected charge_types: both [Fast] and [Long_Life] are enabled
+Sep 24 12:33:02 Morbo kernel: ideapad_acpi VPC2004:00: unexpected charge_types: both [Fast] and [Long_Life] are enabled
+Sep 24 12:35:18 Morbo kernel: ideapad_acpi VPC2004:00: unexpected charge_types: both [Fast] and [Long_Life] are enabled
+
+============================================================
+3. KERNEL WARNINGS
+============================================================
+Sep 24 12:07:53 Morbo kernel: virt/tdx: TDX not supported by the host platform
+Sep 24 12:07:53 Morbo kernel: ACPI BIOS Error (bug): Could not resolve symbol [\_SB.PCI0.PB2], AE_NOT_FOUND (20260408/dswload2-162)
+Sep 24 12:07:53 Morbo kernel: ACPI Error: AE_NOT_FOUND, During name lookup/catalog (20260408/psobject-220)
+Sep 24 12:07:53 Morbo kernel: ACPI: \_SB_.PCI0.GP11: Overriding _PRW sleep state (S4) by S0 from power resources
+Sep 24 12:07:53 Morbo kernel: ACPI: \_SB_.PCI0.GP12: Overriding _PRW sleep state (S4) by S0 from power resources
+Sep 24 12:07:53 Morbo kernel: ACPI: \_SB_.PCI0.GP19.NHI0: Overriding _PRW sleep state (S4) by S0 from power resources
+Sep 24 12:07:53 Morbo kernel: ACPI: \_SB_.PCI0.GP19.NHI1: Overriding _PRW sleep state (S4) by S0 from power resources
+Sep 24 12:07:53 Morbo kernel: i8042: PNP: PS/2 appears to have AUX port disabled, if this is incorrect please boot with i8042.nopnp
+Sep 24 12:07:53 Morbo kernel: wmi_bus wmi_bus-PNP0C14:01: [Firmware Bug]: WMAE method block execution control method not found
+Sep 24 12:07:53 Morbo kernel: workqueue: name exceeds WQ_NAME_LEN. Truncating to: hdmi_frl_status_polling_workque
+Sep 24 12:07:53 Morbo kernel: nvidia: loading out-of-tree module taints kernel.
+Sep 24 12:07:54 Morbo kernel: 
+Sep 24 12:07:54 Morbo kernel: NVRM: loading NVIDIA UNIX Open Kernel Module for x86_64  610.57.04  Release Build  (root@)  
+Sep 24 12:07:54 Morbo kernel: lenovo_wmi_gamezone 887B54E3-DDDC-4B2C-8B88-68A26A8835D0-3: platform_profile probe failed
+Sep 24 12:07:56 Morbo kernel: NVRM: GPU0 nvAssertOkFailedNoLog: Assertion failed: Invalid data passed [NV_ERR_INVALID_DATA] (0x00000025) returned from PlatformRequestHandler failed to get target temp from SBIOS @ platform_request_handler_ctrl.c:2174
+Sep 24 12:07:56 Morbo kernel: NVRM: GPU0 nvAssertOkFailedNoLog: Assertion failed: Invalid data passed [NV_ERR_INVALID_DATA] (0x00000025) returned from PlatformRequestHandler failed to get platform power mode from SBIOS @ platform_request_handler_ctrl.c:2117
+Sep 24 12:07:56 Morbo kernel: nvidia 0000:01:00.0: [drm] No compatible format found
+Sep 24 12:07:56 Morbo kernel: Bluetooth: hci0: HCI Enhanced Setup Synchronous Connection command is advertised, but not supported.
+Sep 24 12:08:21 Morbo kernel: [UFW BLOCK] IN=wlp2s0 OUT= MAC=cc:5e:f8:e3:e0:e9:e4:55:a8:25:26:05:08:00 SRC=10.128.128.128 DST=224.0.0.1 LEN=32 TOS=0x00 PREC=0xC0 TTL=1 ID=7155 PROTO=2 
+Sep 24 12:08:22 Morbo kernel: ideapad_acpi VPC2004:00: unexpected charge_types: both [Fast] and [Long_Life] are enabled
+Sep 24 12:10:52 Morbo kernel: ideapad_acpi VPC2004:00: unexpected charge_types: both [Fast] and [Long_Life] are enabled
+Sep 24 12:14:30 Morbo kernel: ideapad_acpi VPC2004:00: unexpected charge_types: both [Fast] and [Long_Life] are enabled
+Sep 24 12:16:41 Morbo kernel: ideapad_acpi VPC2004:00: unexpected charge_types: both [Fast] and [Long_Life] are enabled
+Sep 24 12:19:14 Morbo kernel: ideapad_acpi VPC2004:00: unexpected charge_types: both [Fast] and [Long_Life] are enabled
+Sep 24 12:22:05 Morbo kernel: ideapad_acpi VPC2004:00: unexpected charge_types: both [Fast] and [Long_Life] are enabled
+Sep 24 12:22:06 Morbo kernel: [UFW BLOCK] IN=wlp2s0 OUT= MAC=cc:5e:f8:e3:e0:e9:e4:55:a8:24:ff:d2:08:00 SRC=10.128.128.128 DST=224.0.0.1 LEN=32 TOS=0x00 PREC=0xC0 TTL=1 ID=4390 PROTO=2 
+Sep 24 12:25:29 Morbo kernel: ideapad_acpi VPC2004:00: unexpected charge_types: both [Fast] and [Long_Life] are enabled
+Sep 24 12:29:37 Morbo kernel: ideapad_acpi VPC2004:00: unexpected charge_types: both [Fast] and [Long_Life] are enabled
+Sep 24 12:33:02 Morbo kernel: ideapad_acpi VPC2004:00: unexpected charge_types: both [Fast] and [Long_Life] are enabled
+Sep 24 12:35:17 Morbo kernel: warning: `Socket Thread' uses wireless extensions which will stop working for Wi-Fi 7 hardware; use nl80211
+Sep 24 12:35:18 Morbo kernel: ideapad_acpi VPC2004:00: unexpected charge_types: both [Fast] and [Long_Life] are enabled
+
+============================================================
+4. BOOT PERFORMANCE
+============================================================
+Startup finished in 4.832s (firmware) + 6.035s (loader) + 4.275s (kernel) + 5.475s (userspace) = 20.619s 
+graphical.target reached after 5.474s in userspace.
+
+Slowest services:
+1.864s systemd-tpm2-setup-early.service
+1.776s systemd-tpm2-setup.service
+1.056s NetworkManager.service
+ 556ms ufw.service
+ 399ms dev-nvme0n1p2.device
+ 290ms systemd-modules-load.service
+ 228ms systemd-udev-trigger.service
+ 214ms ldconfig.service
+ 168ms user@1000.service
+ 126ms systemd-vconsole-setup.service
+ 100ms systemd-pcrlogin@1000.service
+  87ms systemd-journald.service
+  81ms systemd-tmpfiles-setup-dev-early.service
+  72ms systemd-pcrmachine.service
+  65ms systemd-pcrlogin@966.service
+  63ms polkit.service
+  61ms systemd-backlight@leds:platform::kbd_backlight.service
+  60ms systemd-timesyncd.service
+  58ms systemd-tmpfiles-clean.service
+  57ms systemd-tmpfiles-setup.service
+
+============================================================
+5. STORAGE
+============================================================
+Filesystem     Type   Size  Used Avail Use% Mounted on
+/dev/nvme0n1p2 btrfs  476G   27G  448G   6% /
+/dev/nvme0n1p1 vfat  1022M  218M  805M  22% /boot
+[INFO] /boot source: /dev/nvme0n1p1
+Options: rw,relatime,fmask=0077,dmask=0077,codepage=437,iocharset=ascii,shortname=mixed,utf8,errors=remount-ro
+[PASS] /boot uses restrictive FAT masks (0077/0077).
+
+Btrfs usage:
+Overall:
+    Device size:		 475.94GiB
+    Device allocated:		  31.02GiB
+    Device unallocated:		 444.91GiB
+    Device missing:		     0.00B
+    Device slack:		     0.00B
+    Used:			  26.79GiB
+    Free (estimated):		 447.96GiB	(min: 225.50GiB)
+    Free (statfs, df):		 447.96GiB
+    Data ratio:			      1.00
+    Metadata ratio:		      2.00
+    Global reserve:		  54.12MiB	(used: 0.00B)
+    Multiple profiles:		        no
+
+Data,single: Size:29.01GiB, Used:25.96GiB (89.51%)
+
+Metadata,DUP: Size:1.00GiB, Used:420.77MiB (41.09%)
+
+System,DUP: Size:8.00MiB, Used:16.00KiB (0.20%)
+
+
+============================================================
+6. ARCH PACKAGE HEALTH
+============================================================
+Pacman database check:
+No database errors have been found!
+[INFO] Orphan packages:
+jemalloc
+rust
+scdoc
+[INFO] Pending repository updates:
+7zip 26.02-1 -> 26.03-1
+adwaita-fonts 50.0-1 -> 51.0-2
+alsa-card-profiles 1:1.6.8-1 -> 1:1.6.9-1
+amd-ucode 20260810-2 -> 20260916-1
+aom 3.15.0-1 -> 3.15.1-1
+aquamarine 0.14.0-2 -> 0.15.1-1
+archlinux-keyring 20260727-1 -> 20260909-1
+ark 26.08.0-1 -> 26.08.1-1
+at-spi2-core 2.60.6-1 -> 2.60.7-1
+attica 6.29.0-1 -> 6.30.0-1
+baloo 6.29.0-2 -> 6.30.0-1
+baloo-widgets 26.08.0-1 -> 26.08.1-1
+bash 5.3.15-1 -> 5.3.20-1
+breeze-icons 6.29.0-1 -> 6.30.0-1
+bubblewrap 0.12.0-1 -> 0.13.0-1
+ca-certificates-mozilla 3.128-1 -> 3.129-1
+cryptsetup 2.8.7-1 -> 2.8.8-1
+curl 8.21.0-1 -> 8.22.0-1
+darktable 2:5.6.1-1 -> 2:5.6.1-3
+dolphin 26.08.0-5 -> 26.08.1-1
+egl-gbm 1.1.3-1 -> 1.1.4-1
+egl-wayland 4:1.1.21-1 -> 4:1.1.22-1
+egl-wayland2 1.0.1-1 -> 1.0.2-1
+egl-x11 1.0.5-1 -> 1.0.6-1
+expat 2.8.3-1 -> 2.8.5-1
+fastfetch 2.67.1-1 -> 2.68.1-1
+fd 10.5.0-2 -> 10.5.0-3
+ffmpeg 2:9.0.1-4 -> 2:9.0.2-1
+firefox 154.0.1-1 -> 156.0.1-1
+fluidsynth 2.6.0-1 -> 2.6.1-1
+fuse-common 3.18.2-1 -> 3.18.3-1
+fuse3 3.18.2-1 -> 3.18.3-1
+fzf 0.74.3-1 -> 0.74.4-1
+gcr-4 4.4.0.1-1 -> 4.4.1-1
+gmic 4.0.4-1 -> 4.0.5-2
+gnutls 3.8.13-2 -> 3.8.13-3
+gpgme 2.1.2-1 -> 2.2.0-1
+gpgmepp 2.1.0-1 -> 2.2.0-1
+gpm 1.20.7.r38.ge82d1a6-6 -> 1.20.7.r38.ge82d1a6-7
+gst-plugins-bad-libs 1.28.6-3 -> 1.28.7-2
+gst-plugins-base 1.28.6-3 -> 1.28.7-2
+gst-plugins-base-libs 1.28.6-3 -> 1.28.7-2
+gstreamer 1.28.6-3 -> 1.28.7-2
+gtk-update-icon-cache 1:4.22.4-1 -> 1:4.22.5-1
+gtk4 1:4.22.4-1 -> 1:4.22.5-1
+gvfs 1.60.2-4 -> 1.60.3-3
+gwenview 26.08.0-1 -> 26.08.1-1
+gzip 1.14-2 -> 1.15-1
+harfbuzz 14.4.0-1 -> 14.5.0-1
+hwdata 0.410-1 -> 0.411-1
+hypridle 0.1.8-1 -> 0.1.8-2
+hyprland 0.56.2-1 -> 0.56.2-3
+hyprland-guiutils 0.2.2-2 -> 0.2.2-3
+hyprlock 0.9.6-2 -> 0.9.6-3
+hyprpaper 0.8.4-6 -> 0.8.4-8
+hyprtoolkit 0.5.4-4 -> 0.5.4-6
+hyprutils 0.14.1-1 -> 0.14.2-1
+iniparser 4.2.6-2 -> 4.3.0-1
+jemalloc 1:5.3.1-3 -> 1:5.4.0-1
+jsoncpp 1.9.6-3 -> 1.9.8-1
+kaccounts-integration 26.08.0-1 -> 26.08.1-1
+karchive 6.29.0-1 -> 6.30.0-1
+kbookmarks 6.29.0-1 -> 6.30.0-1
+kcmutils 6.29.0-1 -> 6.30.0-1
+kcodecs 6.29.0-1 -> 6.30.0-1
+kcolorscheme 6.29.0-1 -> 6.30.0-1
+kcompletion 6.29.0-1 -> 6.30.0-1
+kconfig 6.29.0-1 -> 6.30.0-1
+kconfigwidgets 6.29.0-1 -> 6.30.0-1
+kcoreaddons 6.29.0-1 -> 6.30.0-1
+kcrash 6.29.0-1 -> 6.30.0-1
+kdbusaddons 6.29.0-1 -> 6.30.0-1
+kdnssd 6.29.0-1 -> 6.30.0-1
+kfilemetadata 6.29.0-1 -> 6.30.0-1
+kglobalaccel 6.29.0-1 -> 6.30.0-1
+kguiaddons 6.29.0-1 -> 6.30.0-1
+ki18n 6.29.0-1 -> 6.30.0-1
+kiconthemes 6.29.0-1 -> 6.30.0-1
+kidletime 6.29.0-1 -> 6.30.0-1
+kimageformats 6.29.0-1 -> 6.30.0-2
+kio 6.29.0-2 -> 6.30.0-1
+kio-extras 26.08.0-1 -> 26.08.1-2
+kirigami 6.29.0-1 -> 6.30.0-1
+kitemmodels 6.29.0-1 -> 6.30.0-1
+kitemviews 6.29.0-1 -> 6.30.0-1
+kjobwidgets 6.29.0-1 -> 6.30.0-1
+knewstuff 6.29.0-1 -> 6.30.0-1
+knotifications 6.29.0-1 -> 6.30.0-1
+kpackage 6.29.0-1 -> 6.30.0-1
+kparts 6.29.0-1 -> 6.30.0-1
+kpty 6.29.0-1 -> 6.30.0-1
+kservice 6.29.0-1 -> 6.30.0-1
+ktextwidgets 6.29.0-1 -> 6.30.0-1
+kuserfeedback 6.29.0-1 -> 6.30.0-1
+kwallet 6.29.0-1 -> 6.30.0-1
+kwidgetsaddons 6.29.0-1 -> 6.30.0-1
+kwindowsystem 6.29.0-1 -> 6.30.0-1
+kxmlgui 6.29.0-1 -> 6.30.0-1
+ldb 2:4.24.6-1 -> 2:4.24.7-1
+leancrypto 1.8.0-1 -> 1.9.0-1
+lib32-curl 8.21.0-1 -> 8.22.0-1
+lib32-expat 2.8.3-1 -> 2.8.5-1
+lib32-libgcrypt 1.12.3-1 -> 1.12.4-1
+lib32-libldap 2.6.13-1 -> 2.7.1-1
+lib32-libpipewire 1:1.6.8-1 -> 1:1.6.9-1
+lib32-libxml2 2.15.3-1 -> 2.15.4-1
+lib32-mesa 1:26.2.1-1 -> 1:26.2.3-1
+lib32-nss 3.128-1 -> 3.129-1
+lib32-nvidia-utils 610.57.04-1 -> 615.71.09-1
+lib32-pcre2 10.47-1 -> 10.48-1
+lib32-pipewire 1:1.6.8-1 -> 1:1.6.9-1
+lib32-systemd 261.2-1 -> 261.3-1
+lib32-util-linux 2.42.2-1 -> 2.42.4-1
+lib32-vulkan-mesa-implicit-layers 1:26.2.1-1 -> 1:26.2.3-1
+lib32-vulkan-radeon 1:26.2.1-1 -> 1:26.2.3-1
+lib32-xz 5.8.3-1 -> 5.8.4-1
+libadwaita 1:1.9.3-1 -> 1:1.9.4-1
+libbluray 1.5.0-1 -> 1.5.1-1
+libcap-ng 0.9.5-1 -> 0.9.6-1
+libcgif 0.5.3-1 -> 0.5.4-1
+libde265 1.1.1-1 -> 1.1.3-1
+libebml 1.4.5-3 -> 1.4.7-1
+libgcrypt 1.12.3-1 -> 1.12.4-1
+libheif 1.23.2-1 -> 1.23.5-1
+libinput 1.31.3-1 -> 1.32.0-1
+libinput-tools 1.31.3-1 -> 1.32.0-1
+libkdcraw 26.08.0-1 -> 26.08.1-1
+libkexiv2 26.08.0-1 -> 26.08.1-1
+libldap 2.6.13-1 -> 2.7.1-1
+libnautilus-extension 50.3-1 -> 50.3.1-1
+libnfs 6.0.2-5 -> 7.0.2-2
+libnftnl 1.3.1-1 -> 1.3.2-1
+libnice 0.1.23-1 -> 0.1.24-1
+libpcap 1.10.6-1 -> 1.11.0-1
+libpipewire 1:1.6.8-1 -> 1:1.6.9-1
+libsecret 0.21.7-1 -> 0.21.8.2-1
+libtirpc 1.3.7-1 -> 1.3.8-1
+libunwind 1.8.2-1 -> 1.8.3-1
+libvips 8.18.6-1 -> 8.18.6-2
+libvlc 3.0.23_2-13 -> 3.0.23_2-16
+libwacom 2.19.1-1 -> 2.20.0-1
+libwbclient 2:4.24.6-1 -> 2:4.24.7-1
+libwireplumber 0.5.16-1 -> 0.5.17-2
+libxml2 2.15.3-1 -> 2.15.4-1
+libxnvctrl 610.57.04-1 -> 615.71.09-1
+linux 7.2.2.arch1-1 -> 7.2.6.arch2-1
+linux-firmware 20260810-2 -> 20260916-1
+linux-firmware-amdgpu 20260810-2 -> 20260916-1
+linux-firmware-atheros 20260810-2 -> 20260916-1
+linux-firmware-broadcom 20260810-2 -> 20260916-1
+linux-firmware-cirrus 20260810-2 -> 20260916-1
+linux-firmware-intel 20260810-2 -> 20260916-1
+linux-firmware-mediatek 20260810-2 -> 20260916-1
+linux-firmware-nvidia 20260810-2 -> 20260916-1
+linux-firmware-other 20260810-2 -> 20260916-1
+linux-firmware-radeon 20260810-2 -> 20260916-1
+linux-firmware-realtek 20260810-2 -> 20260916-1
+linux-firmware-whence 20260810-2 -> 20260916-1
+luajit 2.1.1787165859+1ee778a-1 -> 2.1.1788856981+c6ffc14-1
+mesa 1:26.2.1-1 -> 1:26.2.3-1
+meson 1.12.0-1 -> 1.12.1-1
+mkinitcpio 41.1-1 -> 42-1
+nftables 1:1.1.6-3 -> 1:1.1.7-3
+nss 3.128-1 -> 3.129-1
+nvidia-open 610.57.04-11 -> 615.71.09-3
+nvidia-settings 610.57.04-1 -> 615.71.09-1
+nvidia-utils 610.57.04-1 -> 615.71.09-1
+opencv 5.0.0-9 -> 5.0.0-12
+openexr 3.4.15-1 -> 3.5.0-2
+openjph 0.31.0-1 -> 0.32.0-1
+orc 0.4.43-1 -> 0.4.44-1
+parted 3.7-1 -> 3.8-1
+pcre2 10.47-1 -> 10.48-1
+pcsclite 2.5.1-1 -> 2.5.2-1
+pipewire 1:1.6.8-1 -> 1:1.6.9-1
+pipewire-audio 1:1.6.8-1 -> 1:1.6.9-1
+pipewire-pulse 1:1.6.8-1 -> 1:1.6.9-1
+pkgconf 3.0.6-1 -> 3.0.7-1
+plasma-activities 6.7.4-1 -> 6.7.5-1
+polkit-kde-agent 6.7.4-1 -> 6.7.5-1
+protobuf 36.0-1 -> 36.1-1
+purpose 6.29.0-1 -> 6.30.0-1
+python-platformdirs 4.11.5-1 -> 4.11.12-1
+python-tqdm 4.70.0-1 -> 4.70.1-1
+qt6-declarative 6.11.2-1 -> 6.11.2-2
+readline 8.3.003-1 -> 8.3.6-1
+ripgrep-all 0.10.10-2 -> 0.10.10-3
+rust 1:1.98.0-1 -> 1:1.98.1-1
+sdl2-compat 2.32.70-1 -> 2.32.72-1
+sdl3 3.4.14-1 -> 3.4.16-1
+signon-kwallet-extension 26.08.0-1 -> 26.08.1-1
+smbclient 2:4.24.6-1 -> 2:4.24.7-1
+snapper 0.13.1-3 -> 0.13.2-1
+solid 6.29.0-1 -> 6.30.0-1
+sonnet 6.29.0-1 -> 6.30.0-1
+syndication 6.29.0-1 -> 6.30.0-1
+syntax-highlighting 6.29.0-1 -> 6.30.0-1
+systemd 261.2-1 -> 261.3-1
+systemd-libs 261.2-1 -> 261.3-1
+systemd-sysvcompat 261.2-1 -> 261.3-1
+taglib 2.3.1-1 -> 2.3.2-1
+talloc 2.5.0-1 -> 2.5.0-2
+tdb 1.4.15-1 -> 1.4.15-2
+tevent 1:0.17.2-1 -> 1:0.17.2-2
+tzdata 2026c-1 -> 2026d-1
+upower 1.91.3-1 -> 1.91.4-1
+util-linux 2.42.2-1 -> 2.42.4-1
+util-linux-libs 2.42.2-1 -> 2.42.4-1
+uwsm 0.26.7-1 -> 0.27.0-1
+vapoursynth 77-2 -> 79-1
+verdict 1.4.5-2 -> 1.4.5-3
+vid.stab 1.1.1-3 -> 1.1.2-1
+vim 9.2.1011-1 -> 9.2.1046-1
+vim-runtime 9.2.1011-1 -> 9.2.1046-1
+vlc 3.0.23_2-13 -> 3.0.23_2-16
+vlc-cli 3.0.23_2-13 -> 3.0.23_2-16
+vlc-gui-qt 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-a52dec 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-aalib 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-alsa 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-aom 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-archive 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-aribb24 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-aribb25 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-ass 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-avahi 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-bluray 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-caca 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-cddb 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-chromecast 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-dav1d 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-dbus 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-dbus-screensaver 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-dca 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-dvb 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-dvd 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-faad2 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-ffmpeg 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-firewire 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-flac 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-fluidsynth 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-freetype 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-gme 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-gnutls 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-gstreamer 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-inflate 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-jack 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-journal 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-jpeg 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-kate 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-libsecret 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-lirc 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-live555 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-lua 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-mad 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-matroska 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-mdns 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-modplug 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-mpeg2 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-mpg123 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-mtp 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-musepack 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-nfs 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-notify 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-ogg 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-opus 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-png 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-pulse 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-samplerate 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-sdl 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-sftp 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-shout 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-smb 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-soxr 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-speex 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-srt 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-svg 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-tag 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-theora 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-twolame 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-udev 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-upnp 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-vorbis 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-vpx 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-x264 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-x265 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-xml 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugin-zvbi 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugins-all 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugins-base 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugins-extra 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugins-video-output 3.0.23_2-13 -> 3.0.23_2-16
+vlc-plugins-visualization 3.0.23_2-13 -> 3.0.23_2-16
+vmaf 3.2.0-1 -> 3.2.1-1
+vulkan-intel 1:26.2.1-1 -> 1:26.2.3-1
+vulkan-mesa-implicit-layers 1:26.2.1-1 -> 1:26.2.3-1
+vulkan-nouveau 1:26.2.1-1 -> 1:26.2.3-1
+vulkan-radeon 1:26.2.1-1 -> 1:26.2.3-1
+waybar 0.15.0-2 -> 0.15.0-3
+wireless-regdb 2026.05.30-1 -> 2026.09.03-1
+wireplumber 0.5.16-1 -> 0.5.17-2
+xdg-desktop-portal-hyprland 1.4.1-1 -> 1.4.1-2
+xxhash 0.8.3-1 -> 0.8.4-1
+xz 5.8.3-1 -> 5.8.4-1
+yyjson 0.12.0-1 -> 0.13.0-1
+zvbi 0.2.44-1 -> 0.2.45-1
+
+============================================================
+7. HYPRLAND
+============================================================
+[PASS] Hyprland reports no configuration errors.
+Hyprland 0.56.2 built from branch v0.56.2 at commit efb50993780079460b0cbed1363e2166a2de1d9f clean ([gha] Nix: update inputs).
+Date: Wed Aug 5 14:13:21 2026
+Tag: v0.56.2, commits: 7661
+
+Libraries:
+Hyprgraphics: built against 0.5.1, system has 0.5.1
+Hyprutils: built against 0.14.0, system has 0.14.1
+Hyprcursor: built against 0.1.13, system has 0.1.13
+Hyprlang: built against 0.6.8, system has 0.6.8
+Aquamarine: built against 0.14.0, system has 0.14.0
+
+Version ABI string: efb50993780079460b0cbed1363e2166a2de1d9f_aq_0.14_hu_0.14_hg_0.5_hc_0.1_hlg_0.6
+[PASS] hypridle.service is active.
+Sep 24 12:08:16 Morbo hypridle[1098]: [LOG] found 2 rules
+[PASS] Hypridle has active listener rules.
+
+============================================================
+8. AUDIO / REALTIME
+============================================================
+[PASS] rtkit package is installed.
+[PASS] rtkit-daemon is active.
+[PASS] No RTKit ServiceUnknown errors found in the current user boot journal.
+
+============================================================
+9. GRAPHICS
+============================================================
