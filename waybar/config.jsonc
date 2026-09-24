@@ -6,18 +6,14 @@
   "margin-top": 4,
   "margin-left": 6,
   "margin-right": 6,
-
   "modules-left": [
     "custom/launcher",
     "hyprland/workspaces",
-    "hyprland/window",
-    "mpris"
+    "hyprland/window"
   ],
-
   "modules-center": [
-    "clock"
+    "group/music"
   ],
-
   "modules-right": [
     "network",
     "pulseaudio",
@@ -25,15 +21,14 @@
     "memory",
     "battery",
     "tray",
+    "clock",
     "custom/power"
   ],
-
   "custom/launcher": {
     "format": "󰣇",
     "tooltip": false,
     "on-click": "rofi -show drun"
   },
-
   "hyprland/workspaces": {
     "disable-scroll": false,
     "all-outputs": true,
@@ -53,7 +48,6 @@
       "*": 5
     }
   },
-
   "hyprland/window": {
     "format": "{title}",
     "max-length": 18,
@@ -64,13 +58,12 @@
       "^(.*) - kitty$": "$1"
     }
   },
-
   "mpris": {
-    "format": "󰎆  {artist} — {title}",
+    "format": "{artist} — {title}",
     "format-paused": "󰏤  {artist} — {title}",
     "format-stopped": "󰝚  Not Playing",
-    "max-length": 18,
-    "tooltip-format": "{player}: {artist} — {title}",
+    "max-length": 36,
+    "tooltip-format": "{artist} — {title}\\n{album}",
     "player-icons": {
       "default": "󰎆",
       "spotify": "",
@@ -78,27 +71,19 @@
     },
     "status-icons": {
       "paused": "󰏤"
-    }
+    },
+    "player": "spotify",
+    "on-click": "playerctl --player=spotify play-pause",
+    "on-click-middle": "playerctl --player=spotify play-pause",
+    "on-click-right": "setsid -f flatpak run com.spotify.Client >/dev/null 2>&1",
+    "on-scroll-up": "playerctl --player=spotify next",
+    "on-scroll-down": "playerctl --player=spotify previous"
   },
-
   "clock": {
     "format": "󰃭  {:%a %d %b  %I:%M %p}",
     "format-alt": "{:%A, %B %d, %Y}",
-    "tooltip-format": "<tt>{calendar}</tt>",
-    "calendar": {
-      "mode": "month",
-      "weeks-pos": "right",
-      "on-scroll": 1,
-      "format": {
-        "months": "<span color='#dee3e5'><b>{}</b></span>",
-        "days": "<span color='#bfc8cb'><b>{}</b></span>",
-        "weeks": "<span color='#83d2e5'><b>W{}</b></span>",
-        "weekdays": "<span color='#83d2e5'><b>{}</b></span>",
-        "today": "<span color='#ffb4ab'><b><u>{}</u></b></span>"
-      }
-    }
+    "tooltip": false
   },
-
   "network": {
     "format-wifi": "󰖩  {signalStrength}%",
     "format-ethernet": "󰈀 ",
@@ -108,7 +93,6 @@
     "tooltip-format-disconnected": "Disconnected",
     "max-length": 18
   },
-
   "pulseaudio": {
     "format": "{icon}  {volume}%",
     "format-muted": "󰖁  muted",
@@ -130,20 +114,17 @@
     "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-",
     "tooltip-format": "Volume: {volume}%"
   },
-
   "temperature": {
     "critical-threshold": 80,
     "format": "  {temperatureC}°",
     "format-critical": "  {temperatureC}°",
     "tooltip": true
   },
-
   "memory": {
     "interval": 5,
     "format": "  {percentage}%",
     "tooltip-format": "Memory: {used:0.1f} GiB / {total:0.1f} GiB"
   },
-
   "battery": {
     "states": {
       "warning": 30,
@@ -168,17 +149,32 @@
     ],
     "tooltip-format": "{timeTo}\n{capacity}%"
   },
-
   "tray": {
     "icon-size": 16,
     "spacing": 4
   },
-
   "custom/power": {
     "format": "",
     "tooltip": false,
     "on-click": "wlogout",
     "on-click-right": "systemctl poweroff"
+  },
+  "group/music": {
+    "orientation": "horizontal",
+    "modules": [
+      "custom/cava",
+      "mpris"
+    ]
+  },
+  "custom/cava": {
+    "exec": "$HOME/.config/waybar/scripts/cava-waybar.sh",
+    "format": "{}",
+    "tooltip": false,
+    "exec-on-event": false,
+    "on-click": "$HOME/.config/waybar/scripts/music-menu.sh",
+    "on-click-middle": "playerctl --player=spotify play-pause",
+    "on-click-right": "setsid -f flatpak run com.spotify.Client >/dev/null 2>&1",
+    "on-scroll-up": "playerctl --player=spotify next",
+    "on-scroll-down": "playerctl --player=spotify previous"
   }
 }
-

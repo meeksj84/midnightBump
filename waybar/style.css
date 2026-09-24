@@ -171,3 +171,34 @@ tooltip label {
     color: @mb_foreground;
     padding: 6px;
 }
+
+/* ─────────────────────────────────────────────
+               Spotify + Cava
+   ───────────────────────────────────────────── */
+
+#custom-cava,
+#mpris {
+    background: alpha(@mb_surface, 0.58);
+    border: 1px solid alpha(@mb_accent, 0.28);
+    margin: 0;
+}
+
+#custom-cava {
+    color: @mb_accent;
+    border-radius: 7px 0 0 7px;
+    border-right-width: 0;
+    padding: 0 2px 0 7px;
+    min-width: 55px;
+}
+
+#mpris {
+    color: @mb_accent;
+    border-radius: 0 7px 7px 0;
+    border-left-width: 0;
+    padding: 0 8px 0 4px;
+}
+
+#custom-cava:hover,
+#mpris:hover {
+    background: alpha(@mb_accent, 0.14);
+}
