@@ -107,9 +107,23 @@ boot_errors="$(journalctl -b -p err..alert --no-pager 2>/dev/null || true)"
 if [[ -z "$boot_errors" || "$boot_errors" == "-- No entries --" ]]; then
     pass "No error-or-higher journal entries for this boot."
 else
-    known_boot_noise="$(grep -E         'virt/tdx: TDX not supported by the host platform|ACPI BIOS Error \(bug\): Could not resolve symbol \[\\_SB\.PCI0\.PB2\], AE_NOT_FOUND|ACPI Error: AE_NOT_FOUND, During name lookup/catalog|lenovo_wmi_gamezone .*platform_profile probe failed|nl80211: kernel reports: multicast RX registrations are not supported'         <<<"$boot_errors" || true)"
+    known_boot_noise="$(grep -E 'virt/tdx: TDX not supported by the host platform|ACPI BIOS Error \(bug\): Could not resolve symbol \[\\_SB\.PCI0\.PB2\], AE_NOT_FOUND|ACPI Error: AE_NOT_FOUND, During name lookup/catalog|lenovo_wmi_gamezone .*platform_profile probe failed|nl80211: kernel reports: multicast RX registrations are not supported' <<<"$boot_errors" || true)"
 
-    actionable_boot_errors="$(grep -Ev         'virt/tdx: TDX not supported by the host platform|ACPI BIOS Error \(bug\): Could not resolve symbol \[\\_SB\.PCI0\.PB2\], AE_NOT_FOUND|ACPI Error: AE_NOT_FOUND, During name lookup/catalog|lenovo_wmi_gamezone .*platform_profile probe failed|nl80211: kernel reports: multicast RX registrations are not supported| kernel: 
+    actionable_boot_errors="$(grep -Ev 'virt/tdx: TDX not supported by the host platform|ACPI BIOS Error \(bug\): Could not resolve symbol \[\\_SB\.PCI0\.PB2\], AE_NOT_FOUND|ACPI Error: AE_NOT_FOUND, During name lookup/catalog|lenovo_wmi_gamezone .*platform_profile probe failed|nl80211: kernel reports: multicast RX registrations are not supported' <<<"$boot_errors" | sed '/ kernel: *$/d' || true)"
+
+    if [[ -n "$actionable_boot_errors" ]]; then
+        warn "Current boot contains unrecognized error-or-higher journal entries:"
+        printf '%s\n' "$actionable_boot_errors"
+    else
+        pass "No actionable error-or-higher journal entries detected."
+    fi
+
+    if [[ -n "$known_boot_noise" ]]; then
+        info "Known platform/firmware boot messages were detected and not counted as warnings:"
+        printf '%s\n' "$known_boot_noise"
+    fi
+fi
+
 heading "3. KERNEL WARNINGS"
 
 journalctl -k -b -p warning..alert --no-pager 2>/dev/null || true
