@@ -102,6 +102,10 @@ validate_project_files() {
 
         "waybar/config.jsonc"
         "waybar/style.css"
+        "waybar/cava-waybar.conf"
+        "waybar/scripts/cava-waybar.sh"
+        "waybar/scripts/music-menu.sh"
+        "waybar/scripts/previous-track.sh"
 
         "kitty/kitty.conf"
         "mako/config"
@@ -254,6 +258,33 @@ install_aur_packages() {
     info "AUR package installation completed."
 }
 
+install_spotify_flatpak() {
+    if ! command -v flatpak >/dev/null 2>&1; then
+        warn "Flatpak is unavailable; Spotify was not installed."
+        return
+    fi
+
+    info "Configuring Flathub..."
+
+    if ! flatpak remote-add --user --if-not-exists \
+        flathub https://flathub.org/repo/flathub.flatpakrepo; then
+        warn "Could not configure Flathub."
+        return
+    fi
+
+    if flatpak list --app --columns=application 2>/dev/null |
+        grep -qx 'com.spotify.Client'; then
+
+        info "Spotify Flatpak is already installed."
+    else
+        info "Installing Spotify Flatpak..."
+
+        if ! flatpak install --user -y flathub com.spotify.Client; then
+            warn "Spotify Flatpak installation failed."
+        fi
+    fi
+}
+
 configure_firewall() {
     if ! command -v ufw >/dev/null 2>&1; then
         warn "UFW is unavailable; skipped firewall configuration."
@@ -280,6 +311,7 @@ validate_project_files
 install_packages
 install_paru
 install_aur_packages
+install_spotify_flatpak
 configure_firewall
 
 MISSING_COMMANDS=0
@@ -301,6 +333,9 @@ check_command notify-send libnotify
 # Optional commands used by the supplied Waybar configuration.
 check_command wpctl wireplumber
 check_command pavucontrol pavucontrol
+check_command playerctl playerctl
+check_command cava cava
+check_command flatpak flatpak
 check_command paru paru
 check_command wlogout wlogout
 
@@ -342,6 +377,10 @@ link_file \
 link_file \
     "$PROJECT_DIR/waybar/style.css" \
     "$HOME/.config/waybar/style.css"
+
+link_directory \
+    "$PROJECT_DIR/waybar/scripts" \
+    "$HOME/.config/waybar/scripts"
 
 link_file \
     "$PROJECT_DIR/kitty/kitty.conf" \
