@@ -109,6 +109,7 @@ validate_project_files() {
 
         "kitty/kitty.conf"
         "fastfetch/config.jsonc"
+        "shell/midnight-bump-prompt.sh"
         "mako/config"
 
         "rofi/config.rasi"
@@ -350,6 +351,7 @@ mkdir -p \
     "$HOME/.config/waybar" \
     "$HOME/.config/kitty" \
     "$HOME/.config/fastfetch" \
+    "$HOME/.config/midnight-bump" \
     "$HOME/.config/mako" \
     "$HOME/.config/rofi" \
     "$HOME/.config/wlogout" \
@@ -391,6 +393,19 @@ link_file \
 link_file \
     "$PROJECT_DIR/fastfetch/config.jsonc" \
     "$HOME/.config/fastfetch/config.jsonc"
+
+link_file \
+    "$PROJECT_DIR/shell/midnight-bump-prompt.sh" \
+    "$HOME/.config/midnight-bump/prompt.sh"
+
+BASH_PROMPT_LINE='source "$HOME/.config/midnight-bump/prompt.sh"'
+
+if ! grep -Fqx "$BASH_PROMPT_LINE" "$HOME/.bashrc" 2>/dev/null; then
+    printf '\n%s\n' "$BASH_PROMPT_LINE" >> "$HOME/.bashrc"
+    info "Enabled Midnight Bump Bash prompt."
+else
+    info "Midnight Bump Bash prompt is already enabled."
+fi
 
 link_file \
     "$PROJECT_DIR/mako/config" \
