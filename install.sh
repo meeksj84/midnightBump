@@ -108,6 +108,7 @@ validate_project_files() {
         "waybar/scripts/previous-track.sh"
 
         "kitty/kitty.conf"
+        "fastfetch/config.jsonc"
         "mako/config"
 
         "rofi/config.rasi"
@@ -348,6 +349,7 @@ mkdir -p \
     "$HOME/.config/hypr/scripts" \
     "$HOME/.config/waybar" \
     "$HOME/.config/kitty" \
+    "$HOME/.config/fastfetch" \
     "$HOME/.config/mako" \
     "$HOME/.config/rofi" \
     "$HOME/.config/wlogout" \
@@ -385,6 +387,10 @@ link_directory \
 link_file \
     "$PROJECT_DIR/kitty/kitty.conf" \
     "$HOME/.config/kitty/kitty.conf"
+
+link_file \
+    "$PROJECT_DIR/fastfetch/config.jsonc" \
+    "$HOME/.config/fastfetch/config.jsonc"
 
 link_file \
     "$PROJECT_DIR/mako/config" \
