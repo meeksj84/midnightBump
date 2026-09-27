@@ -29,3 +29,4 @@ cava
 flatpak
 fastfetch
 rtkit
+pacman-contrib

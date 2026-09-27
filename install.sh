@@ -331,6 +331,10 @@ check_command mako mako
 check_command makoctl mako
 check_command rofi rofi
 check_command notify-send libnotify
+check_command fastfetch fastfetch
+check_command checkupdates pacman-contrib
+check_command paccache pacman-contrib
+check_command pacdiff pacman-contrib
 
 # Optional commands used by the supplied Waybar configuration.
 check_command wpctl wireplumber
