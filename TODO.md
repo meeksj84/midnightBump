@@ -12,6 +12,9 @@ A lightweight project inbox for ideas, changes, fixes, and future phases.
 
 ## Inbox
 
+- [ ] Theme Dolphin file manager to match the rest of Midnight Bump.
+- [ ] Redesign Rofi to better match Midnight Bump. Visual direction is still undecided and should be explored before implementation.
+
 <!-- Add new ideas here. Example:
 - [ ] Try a different lock-screen clock layout
 -->
