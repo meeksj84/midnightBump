@@ -110,6 +110,8 @@ validate_project_files() {
         "kitty/kitty.conf"
         "fastfetch/config.jsonc"
         "shell/midnight-bump-prompt.sh"
+        "scripts/pre-upgrade-check.sh"
+        "scripts/system-maintenance.sh"
         "mako/config"
 
         "rofi/config.rasi"
@@ -360,6 +362,7 @@ mkdir -p \
     "$HOME/.config/rofi" \
     "$HOME/.config/wlogout" \
     "$HOME/.config/systemd/user" \
+    "$HOME/scripts" \
     "$HOME/.cache"
 
 link_file \
@@ -401,6 +404,10 @@ link_file \
 link_file \
     "$PROJECT_DIR/shell/midnight-bump-prompt.sh" \
     "$HOME/.config/midnight-bump/prompt.sh"
+
+link_file \
+    "$PROJECT_DIR/scripts/system-maintenance.sh" \
+    "$HOME/scripts/system-maintenance.sh"
 
 BASH_PROMPT_LINE='source "$HOME/.config/midnight-bump/prompt.sh"'
 
@@ -484,7 +491,10 @@ link_directory \
     "$PROJECT_DIR/matugen" \
     "$HOME/.config/matugen"
 
-chmod +x "$PROJECT_DIR/hypr/scripts/set-wallpaper"
+chmod +x \
+    "$PROJECT_DIR/hypr/scripts/set-wallpaper" \
+    "$PROJECT_DIR/scripts/pre-upgrade-check.sh" \
+    "$PROJECT_DIR/scripts/system-maintenance.sh"
 
 info "Generating an initial color palette..."
 
