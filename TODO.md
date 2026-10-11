@@ -43,3 +43,5 @@ A lightweight project inbox for ideas, changes, fixes, and future phases.
 - [x] Add Midnight Bump Bash prompt.
 - [x] Merge the pre-upgrade backup and system health scripts.
 - [x] Add `rtkit` and Arch maintenance tools from `pacman-contrib`.
+- [x] Add repo-managed `system-maintenance.sh` with pre-upgrade safety checks.
+- [x] Add `--maintain`, `--clean`, and `--help` maintenance options.
