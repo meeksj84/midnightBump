@@ -2,18 +2,40 @@
 
 set -u
 
-CLEAN_MODE=false
+MAINTAIN_MODE=false
 
 SCRIPT_PATH="$(readlink -f "${BASH_SOURCE[0]}")"
 SCRIPT_DIR="$(dirname "$SCRIPT_PATH")"
 PRE_UPGRADE_SCRIPT="$SCRIPT_DIR/pre-upgrade-check.sh"
 
-if [[ "${1:-}" == "--clean" ]]; then
-    CLEAN_MODE=true
-elif [[ -n "${1:-}" ]]; then
-    printf 'Usage: %s [--clean]\n' "$0" >&2
-    exit 2
-fi
+show_help() {
+    cat <<EOF
+Midnight Bump System Maintenance
+
+Usage:
+  $0              Run read-only system audit
+  $0 --maintain   Run backup, update, cleanup, and scrub
+  $0 --clean      Same as --maintain
+  $0 --help       Show this help
+EOF
+}
+
+case "${1:-}" in
+    "")
+        ;;
+    --maintain|--clean)
+        MAINTAIN_MODE=true
+        ;;
+    --help|-h)
+        show_help
+        exit 0
+        ;;
+    *)
+        printf 'Unknown option: %s\n\n' "$1" >&2
+        show_help >&2
+        exit 2
+        ;;
+esac
 
 section() {
     echo
@@ -77,7 +99,7 @@ if command -v btrfs >/dev/null 2>&1; then
     sudo btrfs scrub status / || true
 fi
 
-if [[ "$CLEAN_MODE" == true ]]; then
+if [[ "$MAINTAIN_MODE" == true ]]; then
     section "PRE-UPGRADE HEALTH CHECK + BACKUP"
 
     if [[ ! -x "$PRE_UPGRADE_SCRIPT" ]]; then
@@ -157,6 +179,9 @@ else
 
     echo "No system changes were made."
     echo
-    echo "To perform the safe maintenance actions, run:"
-    echo "  $0 --clean"
+    echo "To perform full maintenance, run:"
+    echo "  $0 --maintain"
+    echo
+    echo "For all options:"
+    echo "  $0 --help"
 fi
