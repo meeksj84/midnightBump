@@ -112,6 +112,11 @@ validate_project_files() {
         "shell/midnight-bump-prompt.sh"
         "scripts/pre-upgrade-check.sh"
         "scripts/system-maintenance.sh"
+        "scripts/pre-upgrade-check"
+        "scripts/build-pre-upgrade-check.sh"
+        "tools/pre-upgrade-check/Cargo.toml"
+        "tools/pre-upgrade-check/Cargo.lock"
+        "tools/pre-upgrade-check/src/main.rs"
         "mako/config"
 
         "rofi/config.rasi"
@@ -312,7 +317,14 @@ info "Installing Midnight Bump from: $PROJECT_DIR"
 
 validate_project_files
 
+if ! command -v cargo >/dev/null 2>&1; then
+    error "Rust/Cargo 1.70 or newer is required to build pre-upgrade-check."
+    error "Install or activate your Rust toolchain, then rerun install.sh."
+    exit 2
+fi
+
 install_packages
+bash "$PROJECT_DIR/scripts/build-pre-upgrade-check.sh"
 install_paru
 install_aur_packages
 install_spotify_flatpak
@@ -409,6 +421,10 @@ link_file \
     "$PROJECT_DIR/scripts/system-maintenance.sh" \
     "$HOME/scripts/system-maintenance.sh"
 
+link_file \
+    "$PROJECT_DIR/scripts/pre-upgrade-check" \
+    "$HOME/.local/bin/pre-upgrade-check"
+
 BASH_PROMPT_LINE='source "$HOME/.config/midnight-bump/prompt.sh"'
 
 if ! grep -Fqx "$BASH_PROMPT_LINE" "$HOME/.bashrc" 2>/dev/null; then
@@ -493,6 +509,9 @@ link_directory \
 
 chmod +x \
     "$PROJECT_DIR/hypr/scripts/set-wallpaper" \
+    "$PROJECT_DIR/scripts/pre-upgrade-check" \
+    "$PROJECT_DIR/scripts/build-pre-upgrade-check.sh" \
+    "$PROJECT_DIR/scripts/install-updated.sh" \
     "$PROJECT_DIR/scripts/pre-upgrade-check.sh" \
     "$PROJECT_DIR/scripts/system-maintenance.sh"
 

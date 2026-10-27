@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Repository entry point; all audit, backup and maintenance logic lives in Rust.
+set -euo pipefail
+
+SCRIPT_PATH="$(readlink -f -- "${BASH_SOURCE[0]}")"
+SCRIPT_DIR="$(dirname -- "$SCRIPT_PATH")"
+PROJECT_DIR="$(dirname -- "$SCRIPT_DIR")"
+BINARY="$PROJECT_DIR/tools/pre-upgrade-check/target/release/pre-upgrade-check"
+
+if [[ ! -x "$BINARY" ]]; then
+    printf 'Rust pre-upgrade-check has not been built for this checkout.\n' >&2
+    printf 'Build it first:\n  bash %q\n' "$SCRIPT_DIR/build-pre-upgrade-check.sh" >&2
+    exit 2
+fi
+
+exec "$BINARY" --project-dir "$PROJECT_DIR" "$@"

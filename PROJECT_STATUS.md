@@ -1,6 +1,6 @@
 # Midnight Bump Project Status
 
-Last checkpoint: 2026-10-10
+Last checkpoint: 2026-10-27
 
 ## Active phase
 
@@ -33,16 +33,28 @@ Planned work:
 - Spotify/Cava integration is reproducible through `install.sh`.
 - Fastfetch is installed and uses a Midnight Bump-themed config.
 - Bash uses the repo-managed Midnight Bump colored prompt.
-- `scripts/pre-upgrade-check.sh` combines the health audit and pre-upgrade backup.
+- Rust `tools/pre-upgrade-check` implements the health audit, backup and maintenance.
+- `scripts/pre-upgrade-check.sh` remains an audit/backup compatibility launcher.
 - Pre-upgrade backups exclude Steam, Trash, and Flatpak bulk data.
 - `rtkit` and `pacman-contrib` are in the official package manifest.
 - `checkupdates`, `paccache`, and `pacdiff` are verified by the installer.
-- `scripts/system-maintenance.sh` is repo-managed.
+- `scripts/system-maintenance.sh` is a repo-managed compatibility launcher.
 - System maintenance supports:
   - no option: read-only audit
   - `--maintain`: full backup/update/cleanup/scrub workflow
   - `--clean`: alias for `--maintain`
   - `--help`: usage reminder
+
+## Maintenance tool migration
+
+- Rust release: v0.1.5; all 47 standalone tests passed on morbo on 2026-10-27.
+- The real compact review checked 939 installed packages and completed all online
+  inputs, saved its full report, and highlighted pending updates with findings.
+- Repository integration adds offline build and legacy launcher tests. Legacy
+  defaults remain: pre-upgrade-check audits/backs up; system-maintenance audits.
+- Root `install.sh` retains its fuller desktop/SDDM setup and builds/links the CLI.
+- Real upgrade, cleanup, scrub and full desktop installation have not been
+  exercised by this migration. Phase 16 Waybar work above remains separate.
 
 ## Idea inbox
 

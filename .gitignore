@@ -11,3 +11,7 @@
 
 # OS files
 .DS_Store
+
+# Local pre-upgrade reports (Rust target output is ignored in the crate)
+pre-upgrade-review-*.txt
+pre-upgrade-audit-*.txt

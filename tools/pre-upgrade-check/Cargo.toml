@@ -1,0 +1,12 @@
+[package]
+name = "pre-upgrade-check"
+version = "0.1.5"
+edition = "2021"
+rust-version = "1.70"
+description = "Midnight Bump audit, backup, maintenance, and setup"
+publish = false
+
+[profile.release]
+strip = true
+lto = true
+codegen-units = 1
