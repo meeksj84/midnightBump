@@ -36,6 +36,7 @@ hl.config({
 hl.on("hyprland.start", function()
     hl.exec_cmd("nm-applet --indicator")
     hl.exec_cmd("blueman-applet")
+    hl.exec_cmd("/usr/lib/polkit-kde-authentication-agent-1")
 end)
 
 require("keybindings")
