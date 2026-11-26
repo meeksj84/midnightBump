@@ -108,6 +108,7 @@ link_target "$REPO/hypr/hypridle/hypridle.conf" "$HOME/.config/hypr/hypridle.con
 link_target "$REPO/hypr/hyprlock/hyprlock.conf" "$HOME/.config/hypr/hyprlock.conf"
 link_target "$REPO/waybar/config.jsonc" "$HOME/.config/waybar/config.jsonc"
 link_target "$REPO/waybar/style.css" "$HOME/.config/waybar/style.css"
+link_target "$REPO/waybar/cava-waybar.conf" "$HOME/.config/waybar/cava-waybar.conf"
 link_target "$REPO/waybar/scripts" "$HOME/.config/waybar/scripts"
 link_target "$REPO/kitty/kitty.conf" "$HOME/.config/kitty/kitty.conf"
 link_target "$REPO/mako/config" "$HOME/.config/mako/config"
@@ -119,6 +120,7 @@ link_target "$REPO/matugen" "$HOME/.config/matugen"
 link_target "$REPO/fastfetch/config.jsonc" "$HOME/.config/fastfetch/config.jsonc"
 link_target "$REPO/shell/midnight-bump-prompt.sh" "$HOME/.config/midnight-bump/prompt.sh"
 link_target "$REPO/scripts/system-maintenance.sh" "$HOME/scripts/system-maintenance.sh"
+link_target "$REPO/scripts/pre-upgrade-check.sh" "$HOME/scripts/pre-upgrade-check.sh"
 
 # Do not add another source line on repeated runs.
 PROMPT_LINE='source "$HOME/.config/midnight-bump/prompt.sh"'
@@ -127,11 +129,11 @@ if ! grep -Fqx "$PROMPT_LINE" "$HOME/.bashrc"; then
     printf '\n%s\n' "$PROMPT_LINE" >> "$HOME/.bashrc"
 fi
 
-for unit in awww-daemon midnight-bump-wallpaper midnight-bump-waybar midnight-bump-mako; do
+for unit in awww-daemon midnight-bump-wallpaper midnight-bump-waybar midnight-bump-mako midnight-bump-hypridle; do
     link_target "$REPO/systemd/user/$unit.service" "$HOME/.config/systemd/user/$unit.service"
 done
 systemctl --user daemon-reload || warn 'User systemd bus unavailable; enable user services after login.'
-for unit in awww-daemon midnight-bump-wallpaper midnight-bump-waybar midnight-bump-mako; do
+for unit in awww-daemon midnight-bump-wallpaper midnight-bump-waybar midnight-bump-mako midnight-bump-hypridle; do
     systemctl --user enable "$unit.service" || warn "Could not enable $unit.service; check after login."
 done
 
