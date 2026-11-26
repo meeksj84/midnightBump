@@ -30,11 +30,11 @@ A lightweight project inbox for ideas, changes, fixes, and future phases.
 - [x] Add BlueZ/Blueman dependencies to the Midnight Bump installer (pending laptop verification).
 - [x] Replace the Waybar memory module with Bluetooth in repository configuration (test pending).
 - [x] Remove the Waybar temperature module from the active configuration (test pending).
-- [ ] Keep network, volume, battery, tray, clock, and power modules.
+- [x] Keep network, volume, battery, tray, clock, and power modules in the staged Phase 16 configuration.
 - [x] Set Bluetooth click to launch Blueman (test pending).
-- [ ] Enable `bluetooth.service` during installation.
+- [x] Enable `bluetooth.service` during installation (pending laptop hardware verification).
 - [ ] Test Bluetooth states and connected-device display.
-- [ ] Commit and push Phase 16.
+- [x] Commit and push the staged Phase 16 configuration.
 
 ## Done
 
