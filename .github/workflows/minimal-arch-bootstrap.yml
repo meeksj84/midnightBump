@@ -34,7 +34,7 @@ jobs:
           assert len(manifests) == len(set(manifests)), 'Duplicate official packages'
           needed = {'hyprland','uwsm','sddm','networkmanager','pipewire','pipewire-pulse','bluez','blueman','awww','matugen','waybar','kitty'}
           assert needed <= set(manifests), needed - set(manifests)
-          for section in ('hypr/hyprland.lua','hypr/keybindings.lua','systemd/user/midnight-bump-waybar.service','systemd/user/midnight-bump-mako.service','systemd/user/awww-daemon.service','systemd/user/midnight-bump-wallpaper.service','sddm/midnight-bump-theme/Main.qml'):
+          for section in ('hypr/hyprland.lua','hypr/keybindings.lua','systemd/user/midnight-bump-waybar.service','systemd/user/midnight-bump-mako.service','systemd/user/midnight-bump-hypridle.service','waybar/cava-waybar.conf','systemd/user/awww-daemon.service','systemd/user/midnight-bump-wallpaper.service','sddm/midnight-bump-theme/Main.qml'):
               assert (repo/section).is_file(), 'Missing repo artifact: ' + section
           data = json.loads((repo/'waybar/config.jsonc').read_text())
           assert 'bluetooth' in data['modules-right']
@@ -50,3 +50,11 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y -qq lua5.4
           luac -p hypr/hyprland.lua hypr/keybindings.lua
+      - name: Resolve manifest against current Arch package repositories
+        run: |
+          docker run --rm -v "$PWD:/repo:ro" archlinux:latest bash -lc '
+            pacman -Sy --noconfirm >/dev/null
+            mapfile -t packages < <(sed -e "s/[[:space:]]*#.*$//" -e "/^[[:space:]]*$/d" /repo/packages/official.txt)
+            pacman -Sp -- "${packages[@]}" >/dev/null
+            echo "PASS: all official package names resolve on Arch"
+          '
