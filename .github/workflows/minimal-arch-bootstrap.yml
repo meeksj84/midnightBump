@@ -1,0 +1,52 @@
+name: Minimal Arch bootstrap static validation
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'install.sh'
+      - 'scripts/install-minimal-arch.sh'
+      - 'scripts/doctor.sh'
+      - 'packages/official.txt'
+      - 'hypr/**'
+      - 'waybar/**'
+      - 'systemd/user/**'
+      - '.github/workflows/minimal-arch-bootstrap.yml'
+  pull_request:
+jobs:
+  static-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bash syntax
+        run: |
+          bash -n install.sh
+          bash -n scripts/install-minimal-arch.sh
+          bash -n scripts/doctor.sh
+          bash -n hypr/scripts/set-wallpaper
+          for script in waybar/scripts/*.sh; do bash -n "$script"; done
+      - name: Validate complete bootstrap sources and Waybar JSON
+        run: |
+          python3 - <<'PY'
+          import json, pathlib, re
+          repo = pathlib.Path('.')
+          installer = (repo/'scripts/install-minimal-arch.sh').read_text()
+          manifests = [x.strip() for x in (repo/'packages/official.txt').read_text().splitlines() if x.strip() and not x.startswith('#')]
+          assert len(manifests) == len(set(manifests)), 'Duplicate official packages'
+          needed = {'hyprland','uwsm','sddm','networkmanager','pipewire','pipewire-pulse','bluez','blueman','awww','matugen','waybar','kitty'}
+          assert needed <= set(manifests), needed - set(manifests)
+          for section in ('hypr/hyprland.lua','hypr/keybindings.lua','systemd/user/midnight-bump-waybar.service','systemd/user/midnight-bump-mako.service','systemd/user/awww-daemon.service','systemd/user/midnight-bump-wallpaper.service','sddm/midnight-bump-theme/Main.qml'):
+              assert (repo/section).is_file(), 'Missing repo artifact: ' + section
+          data = json.loads((repo/'waybar/config.jsonc').read_text())
+          assert 'bluetooth' in data['modules-right']
+          assert 'memory' not in data['modules-right'] and 'temperature' not in data['modules-right']
+          assert 'group/music' in data['modules-center']
+          assert 'mpris' in data['group/music']['modules']
+          assert 'audio_visualizer' not in data['group/music']['modules']
+          assert 'hyprland.lua' in installer and 'systemctl --user enable' in installer
+          print('PASS: package manifest, core repo artifacts, session services, Waybar Phase 16 config')
+          PY
+      - name: Check Lua configuration syntax
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq lua5.4
+          luac -p hypr/hyprland.lua hypr/keybindings.lua
