@@ -30,6 +30,7 @@ window#waybar {
 #network,
 #pulseaudio,
 #temperature,
+#bluetooth,
 #memory,
 #battery,
 #tray,
@@ -139,6 +140,9 @@ window#waybar {
 #battery.critical:not(.charging) {
     color: @mb_error;
 }
+
+/* Bluetooth */
+#bluetooth { color: @mb_secondary; }
 
 /* Tray */
 #tray {
