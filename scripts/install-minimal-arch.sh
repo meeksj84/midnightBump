@@ -155,12 +155,14 @@ else
     sudo systemctl enable --now NetworkManager.service
 fi
 sudo systemctl enable --now bluetooth.service
-sudo systemctl enable --now ufw.service
-sudo ufw default deny incoming
-sudo ufw default allow outgoing
+# Do not change the firewall at all over SSH. Applying defaults while UFW
+# is already active could disconnect a remote administrator.
 if [[ -n "${SSH_CONNECTION:-}" || -n "${SSH_TTY:-}" ]]; then
-    warn 'Remote SSH session detected: review UFW rules and enable the firewall manually.'
+    warn 'SSH detected: firewall service and rules left untouched. Configure UFW locally.'
 else
+    sudo ufw default deny incoming
+    sudo ufw default allow outgoing
+    sudo systemctl enable --now ufw.service
     sudo ufw --force enable
 fi
 
