@@ -16,9 +16,8 @@
   ],
   "modules-right": [
     "network",
+    "bluetooth",
     "pulseaudio",
-    "temperature",
-    "memory",
     "battery",
     "tray",
     "clock",
@@ -119,6 +118,17 @@
     "format": "  {temperatureC}°",
     "format-critical": "  {temperatureC}°",
     "tooltip": true
+  },
+  "bluetooth": {
+    "format": "󰂯",
+    "format-connected": "󰂱  {num_connections}",
+    "format-connected-battery": "󰂱  {num_connections}",
+    "format-disabled": "󰂲",
+    "format-off": "󰂲",
+    "format-no-controller": "",
+    "tooltip-format": "{controller_alias}: {controller_address}",
+    "tooltip-format-connected": "{device_alias}",
+    "on-click": "blueman-manager"
   },
   "memory": {
     "interval": 5,
