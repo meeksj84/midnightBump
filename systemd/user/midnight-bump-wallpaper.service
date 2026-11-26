@@ -6,7 +6,7 @@ PartOf=wayland-session@hyprland.desktop.target
 
 [Service]
 Type=oneshot
-ExecStartPre=/usr/bin/bash -c 'for i in {1..50}; do /usr/bin/awww query 2>/dev/null | /usr/bin/grep -q "currently displaying" && exit 0; /usr/bin/sleep 0.1; done; exit 1'
+ExecStartPre=/usr/bin/bash -c 'for i in {1..50}; do /usr/bin/awww query >/dev/null 2>&1 && exit 0; /usr/bin/sleep 0.2; done; exit 1'
 ExecStart=%h/.config/hypr/scripts/set-wallpaper
 
 [Install]
