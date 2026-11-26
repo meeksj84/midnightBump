@@ -35,7 +35,7 @@ for service in NetworkManager bluetooth sddm; do
         warn "$service.service not enabled"
     fi
 done
-for unit in midnight-bump-waybar midnight-bump-mako awww-daemon midnight-bump-wallpaper; do
+for unit in midnight-bump-waybar midnight-bump-mako midnight-bump-hypridle awww-daemon midnight-bump-wallpaper; do
     if systemctl --user is-enabled --quiet "$unit.service" 2>/dev/null; then
         ok "$unit.service enabled for Hyprland session"
     else
