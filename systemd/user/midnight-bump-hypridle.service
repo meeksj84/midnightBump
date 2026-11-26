@@ -1,0 +1,12 @@
+[Unit]
+Description=Midnight Bump Hypridle lock and sleep handling
+After=wayland-wm@hyprland.desktop.service
+PartOf=wayland-session@hyprland.desktop.target
+
+[Service]
+ExecStart=/usr/bin/hypridle
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=wayland-session@hyprland.desktop.target
