@@ -195,7 +195,14 @@ if (( ! SKIP_AUR )) && ! command -v wlogout >/dev/null 2>&1; then
         if ! command -v paru >/dev/null 2>&1; then
             build_dir="$(mktemp -d)"
             git clone https://aur.archlinux.org/paru.git "$build_dir/paru"
-            log "Review the paru PKGBUILD in $build_dir/paru before continuing."
+            log "AUR package script (review before building):"
+            sed -n '1,200p' "$build_dir/paru/PKGBUILD"
+            printf 'Build this reviewed paru PKGBUILD? [y/N] '
+            read -r build_answer || build_answer=''
+            if [[ "$build_answer" != y && "$build_answer" != Y ]]; then
+                warn 'Paru build declined; leaving its source at the temporary build directory.'
+                exit 1
+            fi
             (cd "$build_dir/paru" && makepkg -si)
             rm -rf -- "$build_dir"
         fi
