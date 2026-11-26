@@ -55,3 +55,7 @@ btrfs-progs
 unzip
 curl
 rust
+mesa
+mesa-utils
+vulkan-icd-loader
+pciutils
