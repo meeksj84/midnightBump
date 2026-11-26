@@ -67,8 +67,15 @@ sudo -v
 # Avoid pacman's unsupported partial-upgrade state. Let the user review pacman's prompts.
 log 'Updating Arch and installing official dependencies (pacman will request confirmation).'
 mapfile -t PACKAGES < <(sed -e 's/[[:space:]]*#.*$//' -e '/^[[:space:]]*$/d' "$REPO/packages/official.txt")
-(( ${PACKAGES[@]} > 0 )) || die 'Official package list is empty.'
+(( ${#PACKAGES[@]} > 0 )) || die 'Official package list is empty.'
 sudo pacman -Syu --needed -- "${PACKAGES[@]}"
+
+# Install CPU microcode matching this machine, never both vendor packages blindly.
+if grep -qm1 'vendor_id[[:space:]]*:[[:space:]]*AuthenticAMD' /proc/cpuinfo; then
+    sudo pacman -S --needed amd-ucode
+elif grep -qm1 'vendor_id[[:space:]]*:[[:space:]]*GenuineIntel' /proc/cpuinfo; then
+    sudo pacman -S --needed intel-ucode
+fi
 
 # Make dated local backups, never deleting or overwriting existing user configuration.
 backup_target() {
@@ -149,7 +156,7 @@ sudo systemctl enable --now bluetooth.service
 sudo systemctl enable --now ufw.service
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
-if [[ -n "$SSH_CONNECTION" || -n "$SSH_TTY" ]]; then
+if [[ -n "${SSH_CONNECTION:-}" || -n "${SSH_TTY:-}" ]]; then
     warn 'Remote SSH session detected: review UFW rules and enable the firewall manually.'
 else
     sudo ufw --force enable
